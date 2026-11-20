@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Building Compliant Loan Software for a Pawn Shop | Case Study | BAMS Technology</title>
+<meta name="case-study" content="pawn-shop">
+<meta name="description" content="Existing financial software couldn&#x27;t handle the client&#x27;s lending workflow or compliance needs, so we built a custom platform.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="BAMS Technology">
+<meta property="og:title" content="Building Compliant Loan Software for a Pawn Shop | Case Study | BAMS Technology">
+<meta property="og:description" content="Existing financial software couldn&#x27;t handle the client&#x27;s lending workflow or compliance needs, so we built a custom platform.">
+<meta property="og:url" content="https://bamstechnology.com/case-study/pawn-shop">
+<meta property="og:image" content="https://bamstechnology.com/assets/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<script src="/support.js"></script>
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="canonical" href="https://bamstechnology.com/case-study/pawn-shop">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;-webkit-font-smoothing:antialiased;overflow-wrap:break-word}
+  a{color:#3F60B2;text-decoration:none}
+  a:hover{color:#0E1A2B}
+  button{font:inherit}
+  .svc-nav-menu{opacity:0;visibility:hidden;transform:translate(-50%,4px);transition:opacity .15s ease,visibility .15s ease,transform .15s ease}
+  .svc-nav-drop:hover .svc-nav-menu,.svc-nav-drop:focus-within .svc-nav-menu{opacity:1;visibility:visible;transform:translate(-50%,0)}
+  .nav-toggle-input{display:none}
+  .nav-toggle-label{display:none;cursor:pointer;justify-self:end}
+  @media (max-width:900px){
+    .nav-actions{grid-column:3 !important}.nav-toggle-label{display:flex !important;align-items:center;justify-content:center;width:48px;height:48px}.nav-toggle-label svg{width:26px !important;height:26px !important}
+    .brand-link{font-size:0.85rem !important;white-space:nowrap;gap:8px !important}
+    .brand-link img{height:28px !important;width:auto !important}
+    .nav-phone{font-size:0 !important;gap:0 !important;width:44px;height:44px;justify-content:center;border:1px solid #E5E7EB;border-radius:8px}.nav-phone svg{width:20px;height:20px}
+    footer a,a[href^="tel:"],a[href^="mailto:"],.tap-link{display:inline-flex !important;align-items:center;min-height:44px}.nav-links a{min-height:44px;display:flex;align-items:center}
+    .nav-links{position:absolute !important;top:100% !important;left:0 !important;right:0 !important;display:none !important;flex-direction:column !important;align-items:stretch !important;gap:2px !important;background:#fff !important;border-bottom:1px solid #E5E7EB !important;padding:12px 24px 20px !important;box-shadow:0 16px 32px rgba(14,26,43,0.08) !important}
+    .nav-toggle-input:checked ~ .nav-links{display:flex !important}
+    .nav-links a{padding:10px 0}
+    .svc-nav-drop{position:static !important}
+    .svc-nav-menu{position:static !important;opacity:1 !important;visibility:visible !important;transform:none !important;box-shadow:none !important;border:none !important;padding:0 0 4px 16px !important;min-width:0 !important;background:transparent !important}
+    .px-page{padding-left:20px !important;padding-right:20px !important}
+    .grid-3{grid-template-columns:1fr !important}
+  }
+main{display:block;min-height:calc(100vh - 88px)}@media (max-width:420px){.brand-link{font-size:0 !important;gap:0 !important}}</style>
+</helmet>
+
+<div style="font-family:'Inter',system-ui,sans-serif;background:#FFFFFF;color:#4B5563;min-height:100vh">
+
+  <nav class="px-page" style="position:sticky;top:0;z-index:50;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 48px;height:88px;background:rgba(255,255,255,0.92);backdrop-filter:blur(16px);border-bottom:1px solid #E5E7EB">
+    <a href="/" class="brand-link" style="display:flex;align-items:center;gap:10px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.05rem;color:{{ accentBlue }};letter-spacing:-0.02em;justify-self:center">
+      <img src="/BAMS_Logo_Blue.png" width="250" height="52" alt="BAMS logo" style="height:52px;width:auto">
+      BAMS TECHNOLOGY
+    </a>
+    <input type="checkbox" id="navToggle" class="nav-toggle-input">
+    <div class="nav-links" style="display:flex;align-items:center;gap:32px;font-family:'JetBrains Mono',monospace;font-size:0.92rem;letter-spacing:0.08em;color:{{ accentBlue }};justify-self:center">
+      <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="5">
+        <sc-if value="{{ item.hasDropdown }}" hint-placeholder-val="{{ false }}">
+          <div class="svc-nav-drop" style="position:relative">
+            <a href="{{ item.href }}" style="display:flex;align-items:center;gap:5px">{{ item.label }} <span style="font-size:0.7em">▾</span></a>
+            <div class="svc-nav-menu" style="position:absolute;top:100%;left:50%;z-index:60;background:#FFFFFF;border:1px solid #E5E7EB;border-radius:10px;box-shadow:0 16px 32px rgba(14,26,43,0.12);padding:8px;min-width:220px">
+              <sc-for list="{{ item.dropdownItems }}" as="d" hint-placeholder-count="6">
+                <a href="{{ d.href }}" style="display:block;padding:10px 14px;border-radius:6px;color:{{ navyDark }};font-family:'Inter',sans-serif;font-weight:500;font-size:0.85rem;letter-spacing:normal">{{ d.label }}</a>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ item.notDropdown }}" hint-placeholder-val="{{ true }}">
+          <a href="{{ item.href }}">{{ item.label }}</a>
+        </sc-if>
+      </sc-for>
+    </div>
+    <div class="nav-actions" style="display:flex;align-items:center;gap:20px;justify-self:end">
+      <a href="tel:+17544447773" class="nav-phone" aria-label="Call (754) 444-7773" style="display:flex;align-items:center;gap:7px;font-family:'JetBrains Mono',monospace;font-size:0.85rem;font-weight:600;color:{{ navyDark }};white-space:nowrap">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" stroke="{{ accentBlue }}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        (754) 444-7773
+      </a>
+      <label for="navToggle" class="nav-toggle-label">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 5H20M2 11H20M2 17H20" stroke="{{ navyDark }}" stroke-width="2" stroke-linecap="round"/></svg>
+      </label>
+    </div>
+  </nav>
+<main>
+
+  <sc-if value="{{ notDetail }}" hint-placeholder-val="{{ true }}">
+    <section class="px-page" style="padding:140px 48px 72px;background:#F9FAFB;border-bottom:1px solid #E5E7EB">
+      <div style="max-width:1280px;margin:0 auto">
+        <a href="/" class="tap-link" style="color:{{ accentBlue }};font-family:'JetBrains Mono',monospace;font-size:0.8rem;display:inline-block;margin-bottom:24px">← Back to Home</a>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;letter-spacing:0.12em;color:{{ accentBlue }};margin-bottom:16px">// REAL CLIENT OUTCOMES</div>
+        <h1 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(2rem,4vw,2.9rem);color:{{ navyDark }};letter-spacing:-0.02em;margin:0">Case studies.</h1>
+      </div>
+    </section>
+    <section class="px-page" style="padding:72px 48px">
+      <div class="grid-3" style="max-width:1280px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:20px">
+        <sc-for list="{{ caseStudies }}" as="c" hint-placeholder-count="3">
+          <a href="{{ c.url }}" style="background:#F9FAFB;border:1px solid #E5E7EB;text-align:left;color:inherit;padding:28px;display:flex;flex-direction:column;gap:12px;min-height:260px;font:inherit">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;letter-spacing:0.08em;color:{{ accentBlue }}">{{ c.industry }}</div>
+            <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.1rem;color:{{ navyDark }};margin:0">{{ c.title }}</h3>
+            <p style="font-size:0.88rem;line-height:1.6;color:#6B7280;margin:0;flex:1">{{ c.summary }}</p>
+            <div style="font-size:0.82rem;font-weight:600;color:{{ navyDark }};border-top:1px solid #E5E7EB;padding-top:12px">{{ c.result }}</div>
+          </a>
+        </sc-for>
+      </div>
+    </section>
+  </sc-if>
+
+  <sc-if value="{{ isDetail }}" hint-placeholder-val="{{ false }}">
+    <section class="px-page" style="padding:140px 48px 72px;background:#F9FAFB;border-bottom:1px solid #E5E7EB">
+      <div style="max-width:900px;margin:0 auto">
+        <a href="/case-studies" class="tap-link" style="color:{{ accentBlue }};font-family:'JetBrains Mono',monospace;font-size:0.8rem;margin-bottom:24px">← Back to Case Studies</a>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;letter-spacing:0.12em;color:{{ accentBlue }};margin-bottom:16px">{{ currentCaseStudy.industry }}</div>
+        <h1 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(1.7rem,3.4vw,2.4rem);color:{{ navyDark }};letter-spacing:-0.02em;margin:0 0 20px">{{ currentCaseStudy.title }}</h1>
+        <div style="display:inline-block;background:{{ navyDark }};color:#fff;font-size:0.85rem;font-weight:600;padding:10px 18px">{{ currentCaseStudy.result }}</div>
+      </div>
+    </section>
+    <section class="px-page" style="padding:72px 48px">
+      <div style="max-width:900px;margin:0 auto">
+        <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.2rem;color:{{ navyDark }};margin:0 0 12px">The Challenge</h2>
+        <p style="font-size:1rem;line-height:1.75;color:#4B5563;margin:0 0 40px">{{ currentCaseStudy.challenge }}</p>
+        <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.2rem;color:{{ navyDark }};margin:0 0 16px">Our Approach</h2>
+        <div style="margin:0 0 40px">
+          <sc-for list="{{ approachItems }}" as="a" hint-placeholder-count="4">
+            <div style="font-size:1rem;line-height:1.7;color:#4B5563;padding:8px 0 8px 24px;position:relative">
+              <span style="position:absolute;left:0;top:9px;color:{{ accentBlue }};font-family:'JetBrains Mono',monospace;font-size:0.8rem">→</span>
+              {{ a.text }}
+            </div>
+          </sc-for>
+        </div>
+        <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.2rem;color:{{ navyDark }};margin:0 0 12px">The Outcome</h2>
+        <p style="font-size:1rem;line-height:1.75;color:#4B5563;margin:0">{{ currentCaseStudy.outcome }}</p>
+      </div>
+    </section>
+  </sc-if>
+
+</main>
+
+  <footer class="px-page" style="background:{{ navyDark }};padding:40px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px">
+    <span style="font-size:0.8125rem;color:#8B92A0">© 2026 BAMS Technology. All rights reserved.</span>
+    <div style="display:flex;gap:24px;flex-wrap:wrap">
+      <sc-for list="{{ footerItems }}" as="item" hint-placeholder-count="5">
+        <a href="{{ item.href }}" style="color:#9CA3AF;font-size:0.8125rem">{{ item.label }}</a>
+      </sc-for>
+    </div>
+    <iframe src="https://profiles.dunsregistered.com/SBBWeb.aspx?duns=b9a0ed9a3f9939a60897632311e5bf40&amp;ProfileURL=https://www.dnb.com/business-directory/company-profiles/bams-technology-inc.b9a0ed9a3f9939a60897632311e5bf40?referrer=SmallBusinessBadge" id="TpTpmsSealIFrm" title="Dun &amp; Bradstreet Small Business Badge" width="114" height="114" frameborder="0" scrolling="no" allowtransparency="true" loading="lazy"></iframe>
+  </footer>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;accentBlue&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#3F60B2&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Colors&quot;},&quot;navyDark&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#0E1A2B&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Colors&quot;}}">
+class Component extends DCLogic {
+  state = { data: null, detailKey: (document.querySelector('meta[name="case-study"]') || {}).content || null };
+  async componentDidMount() {
+    const mod = await import('/bams-data.js?v=4');
+    this.setState({ data: mod });
+  }
+  renderVals() {
+    const accentBlue = this.props.accentBlue ?? '#3F60B2';
+    const navyDark = this.props.navyDark ?? '#0E1A2B';
+    const base = { accentBlue, navyDark };
+    const d = this.state.data;
+    const isDetail = !!this.state.detailKey;
+    if (!d) return { ...base, caseStudies: [], currentCaseStudy: {}, approachItems: [], isDetail: false, notDetail: !this.state.detailKey, navItems: [], footerItems: [] };
+    const caseStudies = d.caseStudies.map(c => ({ ...c, url: '/case-study/' + c.key }));
+    const currentCaseStudy = isDetail ? d.caseStudies.find(c => c.key === this.state.detailKey) : null;
+    const approachItems = currentCaseStudy ? currentCaseStudy.approach.map(a => ({ text: a })) : [];
+    return {
+      ...base, caseStudies, currentCaseStudy: currentCaseStudy || {}, approachItems,
+      isDetail, notDetail: !isDetail,
+      navItems: d.navItemsFor(), footerItems: d.footerCompanyItems(),
+    };
+  }
+}
+
+</script>
+</body>
+</html>
