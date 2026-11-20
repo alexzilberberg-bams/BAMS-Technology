@@ -1,8 +1,8 @@
 export const services = [
-  { icon: 'monitor', number: '01', title: 'AI Integration', description: 'Modernize workflows with AI — custom chatbots, process automation, and intelligent tooling built into the systems you already run.', tags: ['AI Chatbots', 'Workflow Automation', 'LLM Integration', 'Internal Tools'], key: 'ai-integration', file: 'ai-integration.html' },
-  { icon: 'shield', number: '02', title: 'Cybersecurity (MSSP)', description: '24/7 SOC, endpoint protection, penetration testing, and incident response. We stop threats before they become breaches.', tags: ['SOC 24/7', 'EDR/XDR', 'Pen Testing', 'SIEM'], key: 'cybersecurity', file: 'cybersecurity.html' },
-  { icon: 'briefcase', number: '03', title: 'Technology Procurement & Advisory', description: 'Vendor-neutral guidance to source the right technology from a network of trusted providers — we manage evaluation, negotiation, and every step in between, at no added cost to you.', tags: ['Vendor Sourcing', 'Contract Negotiation', 'Unbiased Guidance', 'Vendor Management'], key: 'tech-advisory', file: 'tech-advisory.html' },
-  { icon: 'monitor', number: '04', title: 'Managed IT (MSP)', description: 'Full-stack IT management with proactive monitoring, help desk, and cloud services — for a predictable monthly fee.', tags: ['Help Desk', 'Cloud', 'Backup', 'Microsoft 365'], key: 'managed-it', file: 'managed-it.html',
+  { icon: 'monitor', number: '01', title: 'AI Integration', description: 'Modernize workflows with AI — custom chatbots, process automation, and intelligent tooling built into the systems you already run.', tags: ['AI Chatbots', 'Workflow Automation', 'LLM Integration', 'Internal Tools'], key: 'ai-integration', file: '/ai-integration' },
+  { icon: 'shield', number: '02', title: 'Cybersecurity (MSSP)', description: '24/7 SOC, endpoint protection, penetration testing, and incident response. We stop threats before they become breaches.', tags: ['SOC 24/7', 'EDR/XDR', 'Pen Testing', 'SIEM'], key: 'cybersecurity', file: '/cybersecurity' },
+  { icon: 'briefcase', number: '03', title: 'Technology Procurement & Advisory', description: 'Vendor-neutral guidance to source the right technology from a network of trusted providers — we manage evaluation, negotiation, and every step in between, at no added cost to you.', tags: ['Vendor Sourcing', 'Contract Negotiation', 'Unbiased Guidance', 'Vendor Management'], key: 'tech-advisory', file: '/tech-advisory' },
+  { icon: 'monitor', number: '04', title: 'Managed IT (MSP)', description: 'Full-stack IT management with proactive monitoring, help desk, and cloud services — for a predictable monthly fee.', tags: ['Help Desk', 'Cloud', 'Backup', 'Microsoft 365'], key: 'managed-it', file: '/managed-it',
     challenges: [
       { title: 'Your network has too many blind spots', desc: 'Hybrid offices, cloud apps, and remote logins create gaps that are nearly impossible to track by hand.' },
       { title: 'Every device is a target', desc: 'Laptops, servers, and phones are always on and always exposed — the easiest way in for ransomware and malware.' },
@@ -28,8 +28,8 @@ export const services = [
       { n: '3', title: 'Monitor', desc: 'Watch systems and traffic in real time to catch threats early.' },
       { n: '4', title: 'Respond', desc: 'Contain incidents, limit impact, and restore operations quickly.' },
     ] },
-  { icon: 'code', number: '05', title: 'Custom Software', description: 'Bespoke web apps, automation, and integrations built for your exact workflow — no off-the-shelf compromises.', tags: ['Web Apps', 'Automation', 'API Integrations', 'Dashboards'], key: 'custom-software', file: 'custom-software.html' },
-  { icon: 'camera', number: '06', title: 'Security Cameras', description: 'Enterprise IP camera systems installed and managed nationwide — remote monitoring, AI analytics, and 24/7 support.', tags: ['IP Cameras', 'AI Analytics', 'Access Control'], key: 'security-cameras', file: 'security-cameras.html' },
+  { icon: 'code', number: '05', title: 'Custom Software', description: 'Bespoke web apps, automation, and integrations built for your exact workflow — no off-the-shelf compromises.', tags: ['Web Apps', 'Automation', 'API Integrations', 'Dashboards'], key: 'custom-software', file: '/custom-software' },
+  { icon: 'camera', number: '06', title: 'Security Cameras', description: 'Enterprise IP camera systems installed and managed nationwide — remote monitoring, AI analytics, and 24/7 support.', tags: ['IP Cameras', 'AI Analytics', 'Access Control'], key: 'security-cameras', file: '/security-cameras' },
 ];
 
 export const caseStudies = [
@@ -126,12 +126,12 @@ export const partnerPrograms = [
 ];
 
 export const pageFiles = {
-  'home': '/', 'managed-it': 'managed-it.html', 'cybersecurity': 'cybersecurity.html',
-  'security-cameras': 'security-cameras.html', 'custom-software': 'custom-software.html', 'ai-integration': 'ai-integration.html',
-  'tech-advisory': 'tech-advisory.html',
-  'partners': 'partners.html', 'case-studies': 'case-studies.html',
-  'privacy-policy': 'privacy-policy.html', 'terms-of-service': 'terms-of-service.html',
-  'contact-us': 'contact-us.html',
+  'home': '/', 'managed-it': '/managed-it', 'cybersecurity': '/cybersecurity',
+  'security-cameras': '/security-cameras', 'custom-software': '/custom-software', 'ai-integration': '/ai-integration',
+  'tech-advisory': '/tech-advisory',
+  'partners': '/partners', 'case-studies': '/case-studies',
+  'privacy-policy': '/privacy-policy', 'terms-of-service': '/terms-of-service',
+  'contact-us': '/contact-us',
   'visitconnect': '/visitconnect',
 };
 
@@ -140,21 +140,21 @@ export function navItemsFor() {
   return [
     { label: 'HOME', href: '/', hasDropdown: false, notDropdown: true, dropdownItems: [] },
     { label: 'SERVICES', href: '/#services-section', hasDropdown: true, notDropdown: false, dropdownItems: serviceLinks },
-    { label: 'PARTNERS', href: 'partners.html', hasDropdown: false, notDropdown: true, dropdownItems: [] },
-    { label: 'CASE STUDIES', href: 'case-studies.html', hasDropdown: false, notDropdown: true, dropdownItems: [] },
+    { label: 'PARTNERS', href: '/partners', hasDropdown: false, notDropdown: true, dropdownItems: [] },
+    { label: 'CASE STUDIES', href: '/case-studies', hasDropdown: false, notDropdown: true, dropdownItems: [] },
     { label: 'VISITCONNECT', href: '/visitconnect', hasDropdown: false, notDropdown: true, dropdownItems: [] },
-    { label: 'CONTACT', href: 'contact-us.html', hasDropdown: false, notDropdown: true, dropdownItems: [] },
+    { label: 'CONTACT', href: '/contact-us', hasDropdown: false, notDropdown: true, dropdownItems: [] },
   ];
 }
 
 export function footerCompanyItems() {
   return [
     { label: 'Services', href: '/#services-section' },
-    { label: 'Partners', href: 'partners.html' },
-    { label: 'Case Studies', href: 'case-studies.html' },
+    { label: 'Partners', href: '/partners' },
+    { label: 'Case Studies', href: '/case-studies' },
     { label: 'VisitConnect', href: '/visitconnect' },
-    { label: 'Contact', href: 'contact-us.html' },
-    { label: 'Privacy Policy', href: 'privacy-policy.html' },
-    { label: 'Terms of Service', href: 'terms-of-service.html' },
+    { label: 'Contact', href: '/contact-us' },
+    { label: 'Privacy Policy', href: '/privacy-policy' },
+    { label: 'Terms of Service', href: '/terms-of-service' },
   ];
 }
