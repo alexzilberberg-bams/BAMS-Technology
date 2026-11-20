@@ -10,8 +10,8 @@
 
 # GitHub Repos
 
-- **github.com/alexzilberberg1-ux/BAMS-Technology** — main BAMS Technology site (static HTML/JS). Includes the homepage, service pages (custom software, cybersecurity, managed IT, security cameras, tech advisory, AI integration), case studies, contact/partners pages, and the official logo/assets. Treat this as the source of truth for site copy, structure, and branding assets.
-- _(add more repos here as needed — e.g. `github.com/alexzilberberg1-ux/repo-name` — one line each with a short description of what it is)_
+- **github.com/alexzilberberg-bams/BAMS-Technology** — main BAMS Technology site (static HTML/JS). Includes the homepage, service pages (custom software, cybersecurity, managed IT, security cameras, tech advisory, AI integration), case studies, contact/partners pages, and the official logo/assets. Treat this as the source of truth for site copy, structure, and branding assets.
+- _(add more repos here as needed — e.g. `github.com/alexzilberberg-bams/repo-name` — one line each with a short description of what it is)_
 
 # How I Want Claude to Communicate
 
