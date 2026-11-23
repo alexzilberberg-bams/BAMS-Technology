@@ -1,0 +1,24 @@
+# BAMS Technology
+
+> BAMS Technology Inc. is a US technology services company that provides managed IT, cybersecurity, AI integration, custom software, security camera systems and vendor-neutral technology procurement for businesses, with nationwide coverage across the United States. BAMS also builds VisitConnect, online patient booking and front-desk workflow software for medical practices.
+
+Most support is delivered remotely, with onsite work arranged for installs, hardware and projects. Every engagement starts with a free assessment. Contact: (754) 444-7773, info@bamstechnology.com.
+
+## Services
+
+- [Managed IT (MSP)](https://bamstechnology.com/managed-it): Full-stack IT management for a predictable monthly fee, covering 24/7 monitoring, unlimited help desk, endpoint and patch management, Microsoft 365 and Google Workspace, backups and network management.
+- [Cybersecurity (MSSP)](https://bamstechnology.com/cybersecurity): 24/7 SOC monitoring through security partners, endpoint and email protection, identity security, vulnerability scanning, penetration testing and incident response, including malware and backdoor removal.
+- [AI Integration](https://bamstechnology.com/ai-integration): AI chatbots, internal assistants and workflow automation that connect models from providers such as OpenAI, Anthropic and Azure OpenAI to the systems a business already runs, with access controls and logging.
+- [Custom Software](https://bamstechnology.com/custom-software): Custom web applications, portals, integrations, dashboards and legacy system modernization, delivered with phased rollouts and sandbox testing, plus hosting and ongoing support.
+- [Security Cameras](https://bamstechnology.com/security-cameras): IP camera systems designed, installed and supported nationwide, with remote viewing, optional cloud recording, AI person and vehicle detection, and access control.
+- [Technology Procurement & Advisory](https://bamstechnology.com/tech-advisory): Vendor-neutral sourcing from a network of 400+ supplier partners, contract review and ongoing vendor management, at no added cost to the client because advisory partners are compensated by the provider.
+
+## Products
+
+- [VisitConnect](https://bamstechnology.com/visitconnect): Online patient booking for medical practices. Patients book real open appointments, confirm, reschedule or cancel, and complete intake and consent before the visit; messages and refill requests go to one staff queue. It connects with the EMR where the EMR provider supports it, and otherwise staff attach a single PDF. VisitConnect Voice is an optional add-on.
+
+## Company
+
+- [Case Studies](https://bamstechnology.com/case-studies): Examples of BAMS client work, including a zero-downtime legacy website modernization, an EMR database rewrite for a medical practice and a compliant lending platform.
+- [Partners](https://bamstechnology.com/partners): Technology and security partners BAMS works with, including its procurement advisory partner network.
+- [Contact](https://bamstechnology.com/contact-us): Book a free assessment or a VisitConnect walkthrough. Phone (754) 444-7773, email info@bamstechnology.com.

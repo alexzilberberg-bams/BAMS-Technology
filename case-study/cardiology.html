@@ -161,7 +161,7 @@ main{display:block;min-height:calc(100vh - 88px)}@media (max-width:420px){.brand
 class Component extends DCLogic {
   state = { data: null, detailKey: (document.querySelector('meta[name="case-study"]') || {}).content || null };
   async componentDidMount() {
-    const mod = await import('/bams-data.js?v=4');
+    const mod = await import('/bams-data.js?v=5');
     this.setState({ data: mod });
   }
   renderVals() {

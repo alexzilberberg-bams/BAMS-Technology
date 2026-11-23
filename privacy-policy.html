@@ -12,7 +12,7 @@
 <meta property="og:url" content="https://bamstechnology.com/privacy-policy">
 <meta property="og:image" content="https://bamstechnology.com/assets/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
-<script src="./support.js"></script>
+<script src="/support.js"></script>
 <link rel="icon" type="image/x-icon" href="/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
@@ -116,7 +116,7 @@ main{display:block;min-height:calc(100vh - 88px)}@media (max-width:420px){.brand
 class Component extends DCLogic {
   state = { data: null };
   async componentDidMount() {
-    const mod = await import('./bams-data.js?v=4');
+    const mod = await import('/bams-data.js?v=5');
     this.setState({ data: mod });
   }
   sections = [
