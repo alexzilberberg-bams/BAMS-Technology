@@ -1,0 +1,5 @@
+# Cloudflare Pages response headers.
+# ServicePage.dc.html is the shared service-page template that support.js
+# fetches at runtime; it is not a page and should not be indexed.
+/ServicePage.dc.html
+  X-Robots-Tag: noindex

@@ -1,0 +1,13 @@
+{
+  "name": "bams-technology-site",
+  "private": true,
+  "description": "bamstechnology.com: static site, pre-rendered into dist/ for crawlers",
+  "type": "module",
+  "engines": {
+    "node": ">=18.18"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node --test"
+  }
+}

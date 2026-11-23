@@ -12,7 +12,7 @@
 <meta property="og:url" content="https://bamstechnology.com/contact-us">
 <meta property="og:image" content="https://bamstechnology.com/assets/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
-<script src="./support.js"></script>
+<script src="/support.js"></script>
 <link rel="icon" type="image/x-icon" href="/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
@@ -37,7 +37,7 @@
   .svc-nav-drop:hover .svc-nav-menu,.svc-nav-drop:focus-within .svc-nav-menu{opacity:1;visibility:visible;transform:translate(-50%,0)}
   ::placeholder{color:#6B7280}
   input,textarea{outline:none;font-family:'Inter',sans-serif}
-  input:focus,textarea:focus{border-color:{{ accentBlue }} !important}
+  input:focus,textarea:focus{border-color:#3F60B2 !important}
   .nav-toggle-input{display:none}
   .nav-toggle-label{display:none;cursor:pointer;justify-self:end}
   @media (max-width:900px){
@@ -61,7 +61,7 @@ main{display:block;min-height:calc(100vh - 88px)}@media (max-width:420px){.brand
 
   <nav class="px-page" style="position:sticky;top:0;z-index:50;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 48px;height:88px;background:rgba(255,255,255,0.92);backdrop-filter:blur(16px);border-bottom:1px solid #E5E7EB">
     <a href="/" class="brand-link" style="display:flex;align-items:center;gap:10px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.05rem;color:{{ accentBlue }};letter-spacing:-0.02em;justify-self:center">
-      <img src="BAMS_Logo_Blue.png" width="250" height="52" alt="BAMS logo" style="height:52px;width:auto">
+      <img src="/BAMS_Logo_Blue.png" width="250" height="52" alt="BAMS logo" style="height:52px;width:auto">
       BAMS TECHNOLOGY
     </a>
     <input type="checkbox" id="navToggle" class="nav-toggle-input">
@@ -118,6 +118,10 @@ main{display:block;min-height:calc(100vh - 88px)}@media (max-width:420px){.brand
         </div>
       </div>
       <div>
+        <label for="contact-topic" style="display:block;font-family:'JetBrains Mono',monospace;font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:{{ accentBlue }};margin-bottom:8px">Topic</label>
+        <input id="contact-topic" name="topic" type="text" placeholder="e.g. Managed IT, Cybersecurity, VisitConnect" value="{{ formTopic }}" onChange="{{ onTopicChange }}" style="width:100%;background:#FFFFFF;border:1px solid #D1D5DB;color:{{ navyDark }};padding:13px 16px;font-size:0.95rem;border-radius:6px">
+      </div>
+      <div>
         <label style="display:block;font-family:'JetBrains Mono',monospace;font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:{{ accentBlue }};margin-bottom:8px">How can we help?</label>
         <textarea rows="4" placeholder="What challenges are you facing with IT, security, or technology?" value="{{ formMessage }}" onChange="{{ onMessageChange }}" style="width:100%;background:#FFFFFF;border:1px solid #D1D5DB;color:{{ navyDark }};padding:13px 16px;font-size:0.95rem;border-radius:6px;resize:vertical;min-height:110px"></textarea>
       </div>
@@ -158,19 +162,24 @@ main{display:block;min-height:calc(100vh - 88px)}@media (max-width:420px){.brand
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;accentBlue&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#3F60B2&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Colors&quot;},&quot;navyDark&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#0E1A2B&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Colors&quot;}}">
 class Component extends DCLogic {
-  state = { data: null, name: '', email: '', company: '', message: '', note: '' };
+  // /contact-us?product=visitconnect pre-fills the topic (VisitConnect page CTAs link here).
+  static topicForProduct = { visitconnect: 'VisitConnect Walkthrough' };
+  state = { data: null, name: '', email: '', company: '', message: '', note: '',
+    topic: (() => { try { return Component.topicForProduct[new URLSearchParams(location.search).get('product')] || ''; } catch (e) { return ''; } })() };
+  onTopicChange = (e) => this.setState({ topic: e.target.value });
   onNameChange = (e) => this.setState({ name: e.target.value });
   onEmailChange = (e) => this.setState({ email: e.target.value });
   onCompanyChange = (e) => this.setState({ company: e.target.value });
   onMessageChange = (e) => this.setState({ message: e.target.value });
   handleSubmit = (e) => {
     e.preventDefault();
-    const { name, email, company, message } = this.state;
-    const subject = encodeURIComponent(`Website inquiry from ${name || 'a visitor'}`);
+    const { name, email, company, message, topic } = this.state;
+    const subject = encodeURIComponent(`${topic ? topic + ' request' : 'Website inquiry'} from ${name || 'a visitor'}`);
     const bodyLines = [
       `Name: ${name}`,
       `Email: ${email}`,
       company ? `Company: ${company}` : null,
+      topic ? `Topic: ${topic}` : null,
       '',
       message || '(no message provided)',
     ].filter((l) => l !== null);
@@ -179,7 +188,7 @@ class Component extends DCLogic {
     this.setState({ note: "Opening your email client with this message pre-filled — just hit send." });
   };
   async componentDidMount() {
-    const mod = await import('./bams-data.js?v=4');
+    const mod = await import('/bams-data.js?v=5');
     this.setState({ data: mod });
   }
   renderVals() {
@@ -188,7 +197,7 @@ class Component extends DCLogic {
     const d = this.state.data;
     return {
       accentBlue, navyDark,
-      formName: this.state.name, formEmail: this.state.email, formCompany: this.state.company, formMessage: this.state.message,
+      formName: this.state.name, formEmail: this.state.email, formCompany: this.state.company, formTopic: this.state.topic, onTopicChange: this.onTopicChange, formMessage: this.state.message,
       onNameChange: this.onNameChange, onEmailChange: this.onEmailChange, onCompanyChange: this.onCompanyChange, onMessageChange: this.onMessageChange,
       handleSubmit: this.handleSubmit,
       showNote: !!this.state.note, noteText: this.state.note,
