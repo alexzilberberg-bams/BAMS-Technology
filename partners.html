@@ -12,7 +12,8 @@
 <meta property="og:url" content="https://bamstechnology.com/partners">
 <meta property="og:image" content="https://bamstechnology.com/assets/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
-<script src="/support.js"></script>
+<script src="/support.js" defer></script>
+<style>x-dc{display:none!important}</style>
 <link rel="icon" type="image/x-icon" href="/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
@@ -93,7 +94,6 @@ main{display:block;min-height:calc(100vh - 88px)}@media (max-width:420px){.brand
 
   <section class="px-page" style="padding:140px 48px 72px;background:#F9FAFB;border-bottom:1px solid #E5E7EB">
     <div style="max-width:1280px;margin:0 auto">
-      <a href="/" class="tap-link" style="color:{{ accentBlue }};font-family:'JetBrains Mono',monospace;font-size:0.8rem;display:inline-block;margin-bottom:24px">← Back to Home</a>
       <div style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;letter-spacing:0.12em;color:{{ accentBlue }};margin-bottom:16px">// OUR PARTNERS</div>
       <h1 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(2rem,4vw,2.9rem);color:{{ navyDark }};letter-spacing:-0.02em;margin:0 0 16px">We partner with the best in the business.</h1>
       <p style="color:#4B5563;font-size:1.05rem;max-width:600px;line-height:1.6;margin:0">To keep your tech stack in line with your business needs, we work with a network of specialized partners — spanning procurement, payments, cybersecurity, and engineering.</p>
@@ -104,16 +104,16 @@ main{display:block;min-height:calc(100vh - 88px)}@media (max-width:420px){.brand
     <div style="max-width:1280px;margin:0 auto;display:flex;flex-direction:column;gap:1px;background:#E5E7EB">
       <sc-for list="{{ partnerPrograms }}" as="pp" hint-placeholder-count="4">
         <div class="partner-row" style="background:#fff;padding:40px;display:grid;grid-template-columns:180px 1fr;gap:36px;align-items:center">
-          <div style="height:60px;display:flex;align-items:center;justify-content:center">
+          <a href="{{ pp.href }}" target="_blank" rel="noopener noreferrer" aria-label="{{ pp.name }} website (opens in a new tab)" style="height:60px;display:flex;align-items:center;justify-content:center">
             <sc-if value="{{ pp.showLogo }}" hint-placeholder-val="{{ true }}">
               <img src="{{ pp.logoUrl }}" alt="{{ pp.name }}" style="height:{{ pp.logoHeight }};width:auto;max-width:170px;object-fit:contain">
             </sc-if>
             <sc-if value="{{ pp.noLogo }}" hint-placeholder-val="{{ false }}">
               <span style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.2rem;color:{{ navyDark }}">{{ pp.name }}</span>
             </sc-if>
-          </div>
+          </a>
           <div>
-            <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.2rem;color:{{ navyDark }};margin:0 0 10px">{{ pp.tagline }}</h3>
+            <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.2rem;color:{{ navyDark }};margin:0 0 10px">{{ pp.tagline }}</h2>
             <p style="font-size:0.92rem;color:#4B5563;line-height:1.7;margin:0 0 20px;max-width:640px">{{ pp.description }}</p>
             <div style="display:flex;gap:32px;flex-wrap:wrap">
               <sc-for list="{{ pp.highlights }}" as="h" hint-placeholder-count="3">
@@ -123,6 +123,7 @@ main{display:block;min-height:calc(100vh - 88px)}@media (max-width:420px){.brand
                 </div>
               </sc-for>
             </div>
+            <a href="{{ pp.href }}" target="_blank" rel="noopener noreferrer" class="tap-link" style="display:inline-block;margin-top:20px;font-family:'JetBrains Mono',monospace;font-size:0.78rem;letter-spacing:0.05em;font-weight:600;color:{{ accentBlue }}">VISIT {{ pp.upperName }} ↗</a>
           </div>
         </div>
       </sc-for>
@@ -136,13 +137,24 @@ main{display:block;min-height:calc(100vh - 88px)}@media (max-width:420px){.brand
         <sc-for list="{{ partners }}" as="p" hint-placeholder-count="15">
           <div style="background:#fff;border:1px solid #E5E7EB;height:72px;display:flex;align-items:center;justify-content:center;padding:12px">
             <sc-if value="{{ p.showImg }}" hint-placeholder-val="{{ true }}">
-              <img src="{{ p.logoUrl }}" alt="{{ p.name }}" style="max-height:32px;max-width:100%;object-fit:contain">
+              <img src="{{ p.logoUrl }}" alt="{{ p.name }}" loading="lazy" style="max-height:32px;max-width:100%;object-fit:contain">
             </sc-if>
             <sc-if value="{{ p.showText }}" hint-placeholder-val="{{ false }}">
               <span style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:{{ navyDark }};font-weight:600;text-align:center">{{ p.name }}</span>
             </sc-if>
           </div>
         </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <section id="get-started" class="px-page" style="background:linear-gradient(135deg,{{ navyDark }} 0%,#1B3260 55%,{{ accentBlue }} 100%);padding:88px 48px">
+    <div style="max-width:880px;margin:0 auto;text-align:center">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;letter-spacing:0.12em;color:#C7D4F0;margin-bottom:14px">// FREE ADVISORY CONSULTATION</div>
+      <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(1.9rem,3.4vw,2.6rem);letter-spacing:-0.02em;color:#fff;margin:0 0 18px">Not sure which partner fits?</h2>
+      <p style="font-size:1.02rem;line-height:1.7;color:#D5DEEF;margin:0 auto 36px;max-width:620px">Book a no-cost technology advisory consultation. We review what you run today, compare options across our partner network and recommend what fits, at no added cost to you.</p>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+        <a href="/contact-us" style="display:inline-block;background:#fff;color:{{ navyDark }};font-family:'JetBrains Mono',monospace;font-size:0.85rem;letter-spacing:0.08em;font-weight:600;padding:18px 34px;border-radius:6px">BOOK A FREE CONSULTATION →</a>
       </div>
     </div>
   </section>
@@ -156,7 +168,9 @@ main{display:block;min-height:calc(100vh - 88px)}@media (max-width:420px){.brand
         <a href="{{ item.href }}" style="color:#9CA3AF;font-size:0.8125rem">{{ item.label }}</a>
       </sc-for>
     </div>
-    <iframe src="https://profiles.dunsregistered.com/SBBWeb.aspx?duns=b9a0ed9a3f9939a60897632311e5bf40&amp;ProfileURL=https://www.dnb.com/business-directory/company-profiles/bams-technology-inc.b9a0ed9a3f9939a60897632311e5bf40?referrer=SmallBusinessBadge" id="TpTpmsSealIFrm" title="Dun &amp; Bradstreet Small Business Badge" width="114" height="114" frameborder="0" scrolling="no" allowtransparency="true" loading="lazy"></iframe>
+    <a href="https://www.dnb.com/business-directory/company-profiles/bams-technology-inc.b9a0ed9a3f9939a60897632311e5bf40" target="_blank" rel="noopener noreferrer" class="dnb-badge" style="display:inline-block;line-height:0">
+      <img src="/assets/dnb-small-business-badge.webp" width="94" height="114" alt="Dun &amp; Bradstreet Small Business badge: BAMS Technology Inc, 2026" loading="lazy" style="width:94px;height:114px;border-radius:4px">
+    </a>
   </footer>
 
 </div>
@@ -166,7 +180,7 @@ main{display:block;min-height:calc(100vh - 88px)}@media (max-width:420px){.brand
 class Component extends DCLogic {
   state = { data: null };
   async componentDidMount() {
-    const mod = await import('/bams-data.js?v=5');
+    const mod = await import('/bams-data.js');
     this.setState({ data: mod });
   }
   renderVals() {
@@ -175,8 +189,10 @@ class Component extends DCLogic {
     const base = { accentBlue, navyDark, panelBg: this.props.panelBg ?? '#EAF1F8' };
     const d = this.state.data;
     if (!d) return { ...base, partnerPrograms: [], partners: [], navItems: [], footerItems: [] };
-    const partnerPrograms = d.partnerPrograms.map(pp => ({ ...pp, noLogo: !pp.logoUrl, showLogo: !!pp.logoUrl, logoHeight: pp.logoHeight ?? '40px' }));
-    const partners = d.partnersRaw.map(([name, logoUrl]) => ({ name, logoUrl, showImg: /^https?:/.test(logoUrl), showText: !/^https?:/.test(logoUrl) }));
+    const partnerPrograms = d.partnerPrograms.map(pp => ({ ...pp, upperName: pp.name.toUpperCase(), noLogo: !pp.logoUrl, showLogo: !!pp.logoUrl, logoHeight: pp.logoHeight ?? '40px' }));
+    // Logos are local (/assets/partners/...) or absolute URLs; fall back to the name only when there is no logo.
+    const hasLogo = (url) => /^(https?:)?\//.test(url || '');
+    const partners = d.partnersRaw.map(([name, logoUrl]) => ({ name, logoUrl, showImg: hasLogo(logoUrl), showText: !hasLogo(logoUrl) }));
     return { ...base, partnerPrograms, partners, navItems: d.navItemsFor(), footerItems: d.footerCompanyItems() };
   }
 }
