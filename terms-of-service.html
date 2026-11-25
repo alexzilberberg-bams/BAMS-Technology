@@ -12,7 +12,8 @@
 <meta property="og:url" content="https://bamstechnology.com/terms-of-service">
 <meta property="og:image" content="https://bamstechnology.com/assets/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
-<script src="/support.js"></script>
+<script src="/support.js" defer></script>
+<style>x-dc{display:none!important}</style>
 <link rel="icon" type="image/x-icon" href="/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
@@ -32,27 +33,60 @@
   body{margin:0;-webkit-font-smoothing:antialiased;overflow-wrap:break-word}
   a{color:#3F60B2}
   a:hover{color:#0E1A2B}
-  @media (max-width:640px){
+  nav a,footer a{text-decoration:none}
+  .svc-nav-menu{opacity:0;visibility:hidden;transform:translate(-50%,4px);transition:opacity .15s ease,visibility .15s ease,transform .15s ease}
+  .svc-nav-drop:hover .svc-nav-menu,.svc-nav-drop:focus-within .svc-nav-menu{opacity:1;visibility:visible;transform:translate(-50%,0)}
+  .nav-toggle-input{display:none}
+  .nav-toggle-label{display:none;cursor:pointer;justify-self:end}
+  @media (max-width:900px){
+    .nav-actions{grid-column:3 !important}.nav-toggle-label{display:flex !important;align-items:center;justify-content:center;width:48px;height:48px}.nav-toggle-label svg{width:26px !important;height:26px !important}
+    .brand-link{font-size:0.85rem !important;white-space:nowrap;gap:8px !important}
+    .brand-link img{height:28px !important;width:auto !important}
+    .nav-phone{font-size:0 !important;gap:0 !important;width:44px;height:44px;justify-content:center;border:1px solid #E5E7EB;border-radius:8px}.nav-phone svg{width:20px;height:20px}
+    footer a,a[href^="tel:"],a[href^="mailto:"],.tap-link{display:inline-flex !important;align-items:center;min-height:44px}.nav-links a{min-height:44px;display:flex;align-items:center}
+    .nav-links{position:absolute !important;top:100% !important;left:0 !important;right:0 !important;display:none !important;flex-direction:column !important;align-items:stretch !important;gap:2px !important;background:#fff !important;border-bottom:1px solid #E5E7EB !important;padding:12px 24px 20px !important;box-shadow:0 16px 32px rgba(14,26,43,0.08) !important}
+    .nav-toggle-input:checked ~ .nav-links{display:flex !important}
+    .nav-links a{padding:10px 0}
+    .svc-nav-drop{position:static !important}
+    .svc-nav-menu{position:static !important;opacity:1 !important;visibility:visible !important;transform:none !important;box-shadow:none !important;border:none !important;padding:0 0 4px 16px !important;min-width:0 !important;background:transparent !important}
     .px-page{padding-left:20px !important;padding-right:20px !important}
-    .legal-nav{gap:10px !important}
-    .legal-brand{font-size:0.85rem !important;gap:6px !important;white-space:nowrap}
-    .legal-back{font-size:0.75rem !important;gap:4px !important;white-space:nowrap}
   }
-  @media (max-width:340px){
-    .legal-nav{flex-wrap:wrap !important;height:auto !important;padding-top:10px !important;padding-bottom:10px !important;row-gap:6px !important}
-  }
-  @media (max-width:900px){footer a,a[href^="tel:"],a[href^="mailto:"],.tap-link{display:inline-flex !important;align-items:center;min-height:44px}.nav-links a{min-height:44px;display:flex;align-items:center}}
 main{display:block;min-height:calc(100vh - 88px)}@media (max-width:420px){.brand-link{font-size:0 !important;gap:0 !important}}</style>
 </helmet>
 
 <div style="font-family:'Inter',system-ui,sans-serif;background:#FFFFFF;color:#4B5563;min-height:100vh">
 
-  <nav class="px-page legal-nav" style="position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:68px;background:rgba(255,255,255,0.9);backdrop-filter:blur(16px);border-bottom:1px solid #E5E7EB">
-    <div class="legal-brand" style="display:flex;align-items:center;gap:9px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.05rem;color:{{ navyDark }};letter-spacing:-0.02em">
-      <span style="width:8px;height:8px;border-radius:50%;background:{{ accentBlue }};box-shadow:0 0 0 4px {{ accentSoft }}"></span>
-      BAMS Technology
+  <nav class="px-page" style="position:sticky;top:0;z-index:50;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 48px;height:88px;background:rgba(255,255,255,0.92);backdrop-filter:blur(16px);border-bottom:1px solid #E5E7EB">
+    <a href="/" class="brand-link" style="display:flex;align-items:center;gap:10px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.05rem;color:{{ accentBlue }};letter-spacing:-0.02em;justify-self:center">
+      <img src="/BAMS_Logo_Blue.png" width="250" height="52" alt="BAMS Technology" style="height:52px;width:auto">
+    </a>
+    <input type="checkbox" id="navToggle" class="nav-toggle-input">
+    <div class="nav-links" style="display:flex;align-items:center;gap:32px;font-family:'JetBrains Mono',monospace;font-size:0.92rem;letter-spacing:0.08em;color:{{ accentBlue }};justify-self:center">
+      <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="5">
+        <sc-if value="{{ item.hasDropdown }}" hint-placeholder-val="{{ false }}">
+          <div class="svc-nav-drop" style="position:relative">
+            <a href="{{ item.href }}" style="display:flex;align-items:center;gap:5px">{{ item.label }} <span style="font-size:0.7em">▾</span></a>
+            <div class="svc-nav-menu" style="position:absolute;top:100%;left:50%;z-index:60;background:#FFFFFF;border:1px solid #E5E7EB;border-radius:10px;box-shadow:0 16px 32px rgba(14,26,43,0.12);padding:8px;min-width:220px">
+              <sc-for list="{{ item.dropdownItems }}" as="d" hint-placeholder-count="6">
+                <a href="{{ d.href }}" style="display:block;padding:10px 14px;border-radius:6px;color:{{ navyDark }};font-family:'Inter',sans-serif;font-weight:500;font-size:0.85rem;letter-spacing:normal">{{ d.label }}</a>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ item.notDropdown }}" hint-placeholder-val="{{ true }}">
+          <a href="{{ item.href }}">{{ item.label }}</a>
+        </sc-if>
+      </sc-for>
     </div>
-    <a href="/" class="legal-back tap-link" style="display:flex;align-items:center;gap:8px;color:#6B7280;font-size:0.9rem;font-weight:500">← Back to Home</a>
+    <div class="nav-actions" style="display:flex;align-items:center;gap:20px;justify-self:end">
+      <a href="tel:+17544447773" class="nav-phone" aria-label="Call (754) 444-7773" style="display:flex;align-items:center;gap:7px;font-family:'JetBrains Mono',monospace;font-size:0.85rem;font-weight:600;color:{{ navyDark }};white-space:nowrap">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" stroke="{{ accentBlue }}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        (754) 444-7773
+      </a>
+      <label for="navToggle" class="nav-toggle-label">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 5H20M2 11H20M2 17H20" stroke="{{ navyDark }}" stroke-width="2" stroke-linecap="round"/></svg>
+      </label>
+    </div>
   </nav>
 <main>
 
@@ -111,7 +145,9 @@ main{display:block;min-height:calc(100vh - 88px)}@media (max-width:420px){.brand
         <a href="{{ item.href }}" style="color:#9CA3AF;font-size:0.8125rem">{{ item.label }}</a>
       </sc-for>
     </div>
-    <iframe src="https://profiles.dunsregistered.com/SBBWeb.aspx?duns=b9a0ed9a3f9939a60897632311e5bf40&amp;ProfileURL=https://www.dnb.com/business-directory/company-profiles/bams-technology-inc.b9a0ed9a3f9939a60897632311e5bf40?referrer=SmallBusinessBadge" id="TpTpmsSealIFrm" title="Dun &amp; Bradstreet Small Business Badge" width="114" height="114" frameborder="0" scrolling="no" allowtransparency="true" loading="lazy"></iframe>
+    <a href="https://www.dnb.com/business-directory/company-profiles/bams-technology-inc.b9a0ed9a3f9939a60897632311e5bf40" target="_blank" rel="noopener noreferrer" class="dnb-badge" style="display:inline-block;line-height:0">
+      <img src="/assets/dnb-small-business-badge.webp" width="94" height="114" alt="Dun &amp; Bradstreet Small Business badge: BAMS Technology Inc, 2026" loading="lazy" style="width:94px;height:114px;border-radius:4px">
+    </a>
   </footer>
 
 </div>
@@ -121,7 +157,7 @@ main{display:block;min-height:calc(100vh - 88px)}@media (max-width:420px){.brand
 class Component extends DCLogic {
   state = { data: null };
   async componentDidMount() {
-    const mod = await import('/bams-data.js?v=5');
+    const mod = await import('/bams-data.js');
     this.setState({ data: mod });
   }
   sections = [
@@ -185,7 +221,7 @@ class Component extends DCLogic {
     const accentBlue = this.props.accentBlue ?? '#3F60B2';
     const navyDark = this.props.navyDark ?? '#0E1A2B';
     const d = this.state.data;
-    return { accentBlue, navyDark, accentSoft: 'rgba(47,95,255,0.12)', sections: this.sections, footerItems: d ? d.footerCompanyItems() : [] };
+    return { accentBlue, navyDark, accentSoft: 'rgba(47,95,255,0.12)', sections: this.sections, navItems: d ? d.navItemsFor() : [], footerItems: d ? d.footerCompanyItems() : [] };
   }
 }
 

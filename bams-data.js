@@ -214,7 +214,7 @@ const serviceDetails = {
 };
 
 const serviceList = [
-  { icon: 'monitor', number: '01', title: 'AI Integration', description: 'Modernize workflows with AI — custom chatbots, process automation, and intelligent tooling built into the systems you already run.', tags: ['AI Chatbots', 'Workflow Automation', 'LLM Integration', 'Internal Tools'], key: 'ai-integration', file: '/ai-integration' },
+  { icon: 'sparkles', number: '01', title: 'AI Integration', description: 'Modernize workflows with AI — custom chatbots, process automation, and intelligent tooling built into the systems you already run.', tags: ['AI Chatbots', 'Workflow Automation', 'LLM Integration', 'Internal Tools'], key: 'ai-integration', file: '/ai-integration' },
   { icon: 'shield', number: '02', title: 'Cybersecurity (MSSP)', description: '24/7 SOC, endpoint protection, penetration testing, and incident response. We stop threats before they become breaches.', tags: ['SOC 24/7', 'EDR/XDR', 'Pen Testing', 'SIEM'], key: 'cybersecurity', file: '/cybersecurity' },
   { icon: 'briefcase', number: '03', title: 'Technology Procurement & Advisory', description: 'Vendor-neutral guidance to source the right technology from a network of trusted providers — we manage evaluation, negotiation, and every step in between, at no added cost to you.', tags: ['Vendor Sourcing', 'Contract Negotiation', 'Unbiased Guidance', 'Vendor Management'], key: 'tech-advisory', file: '/tech-advisory' },
   { icon: 'monitor', number: '04', title: 'Managed IT (MSP)', description: 'Full-stack IT management with proactive monitoring, help desk, and cloud services — for a predictable monthly fee.', tags: ['Help Desk', 'Cloud', 'Backup', 'Microsoft 365'], key: 'managed-it', file: '/managed-it' },
@@ -240,21 +240,21 @@ export const caseStudies = [
 ];
 
 export const partnersRaw = [
-  ['Group-IB', 'https://cdn.prod.website-files.com/68ea9ef24b5b7ead04262e06/68f38b2e456c17720f2c7676_Group%201000004215.webp'],
-  ['Palo Alto Networks', 'https://cdn.prod.website-files.com/68ea9ef24b5b7ead04262e06/68f38b2406fdd83039546a7f_pan-logo-dark%201.webp'],
-  ['Microsoft', 'https://cdn.prod.website-files.com/68ea9ef24b5b7ead04262e06/68f38b3a9596800bcc60d060_Frame%201000005973.webp'],
-  ['Trend Micro', 'https://cdn.prod.website-files.com/68ea9ef24b5b7ead04262e06/68f38b1c600fdaa8b6e79c37_trend-micro-logo-1%201.webp'],
-  ['Cisco', 'https://cdn.prod.website-files.com/68ea9ef24b5b7ead04262e06/68f38b40e733da970a63fba1_image%206.webp'],
-  ['Aikido', 'https://cdn.prod.website-files.com/68ea9ef24b5b7ead04262e06/68f38b494c1eb8f611aaa475_642adcaf364024281f71df43_Logo-Full%201.webp'],
-  ['Check Point', 'https://cdn.prod.website-files.com/68ea9ef24b5b7ead04262e06/68f727848acd196aebb6e0d5_checkpoint-logo%201.webp'],
-  ['Dragos', 'https://cdn.prod.website-files.com/68ea9ef24b5b7ead04262e06/6944742850546a8818ec6675_Dragos.svg'],
-  ['Sekoia', 'https://cdn.prod.website-files.com/68ea9ef24b5b7ead04262e06/694526a4844968c23910144a_sekoia-logo.png'],
-  ['Proofpoint', 'https://cdn.prod.website-files.com/68ea9ef24b5b7ead04262e06/691082c4a814ed3903975bee_690c71711ba990bb3c5a6791_Rectangle%2010835%201.webp'],
-  ['Sandfly Security', 'https://cdn.prod.website-files.com/68ea9ef24b5b7ead04262e06/68f38be6cb026f306a1a51ce_svgviewer-output%201.webp'],
-  ['Magic Sword', 'https://cdn.prod.website-files.com/68ea9ef24b5b7ead04262e06/68f38bf4f7f68a9d80c42008_Frame%201000005977.webp'],
-  ['CyberArk', 'https://cdn.prod.website-files.com/68ea9ef24b5b7ead04262e06/6931acec3cc03d003da87ab0_CyberArk.png'],
-  ['Voxility', 'https://cdn.prod.website-files.com/68ea9ef24b5b7ead04262e06/68f38b8dae8839f16921eae7_image%205.webp'],
-  ['SIXPAC', '/assets/partners/sixpac-logo.png'],
+  ['Group-IB', '/assets/partners/group-ib.webp'],
+  ['Palo Alto Networks', '/assets/partners/palo-alto-networks.webp'],
+  ['Microsoft', '/assets/partners/microsoft.webp'],
+  ['Trend Micro', '/assets/partners/trend-micro.webp'],
+  ['Cisco', '/assets/partners/cisco.webp'],
+  ['Aikido', '/assets/partners/aikido.webp'],
+  ['Check Point', '/assets/partners/check-point.webp'],
+  ['Dragos', '/assets/partners/dragos.svg'],
+  ['Sekoia', '/assets/partners/sekoia.webp'],
+  ['Proofpoint', '/assets/partners/proofpoint.webp'],
+  ['Sandfly Security', '/assets/partners/sandfly-security.webp'],
+  ['Magic Sword', '/assets/partners/magic-sword.webp'],
+  ['CyberArk', '/assets/partners/cyberark.png'],
+  ['Voxility', '/assets/partners/voxility.webp'],
+  ['SIXPAC', '/assets/partners/sixpac-logo.webp'],
   ['Jungle Creatives', '/assets/partners/jungle-creatives-logo.svg'],
 ];
 
@@ -283,27 +283,22 @@ export const processSteps = [
   { n: '04', title: 'Ongoing Protection', desc: '24/7 monitoring and a dedicated engineer who knows your business.' },
 ];
 
-export const stats = [
-  { value: '99.9', suffix: '%', label: 'Average Uptime', sublabel: 'Across all client environments' },
-  { value: '15', suffix: ' min', label: 'Response SLA', sublabel: 'Contractually guaranteed' },
-  { value: '24/7', suffix: '', label: 'SOC Monitoring', sublabel: '365 days a year' },
-  { value: '50', suffix: '+', label: 'Enterprise Clients', sublabel: 'Nationwide coverage' },
-];
-
-export const tickerItems = ['ACTIVE MONITORING: 247 ENDPOINTS', 'THREAT BLOCKED: 1,203 TODAY', 'UPTIME: 99.97%', 'RESPONSE SLA: 14 MIN AVG', 'SOC STATUS: OPERATIONAL', 'CAMERAS ONLINE: 892'];
+// Capability statements, not live metrics: this strip is static, so it must not
+// show numbers that look like a real-time feed.
+export const tickerItems = ['24/7/365 SOC MONITORING', '30-MINUTE CONTRACTUAL RESPONSE SLA', 'ENDPOINT, NETWORK & CLOUD COVERAGE', 'NATIONWIDE ONSITE DISPATCH'];
 
 export const advisoryStats = [{ value: '400+', label: 'Supplier Partners' }, { value: '$0', label: 'Cost to You' }, { value: 'CISSP/CCSP', label: 'Certified Architects' }];
 
 export const partnerPrograms = [
-  { name: 'AIFS', logoUrl: '/assets/partners/ais-logo.png', logoHeight: '100px', href: 'https://www.aifsllc.com/',
+  { name: 'AIFS', logoUrl: '/assets/partners/ais-logo.webp', logoHeight: '100px', href: 'https://www.aifsllc.com/',
     tagline: 'An unbiased second opinion, at no cost to you.',
     description: 'Through our partnership with Advanced Interface Solutions (AIS), you get a dedicated technology advisor sourcing unbiased recommendations from 400+ supplier partners — compensated by the vendor, not by you.',
     highlights: [{ value: '400+', label: 'Supplier Partners' }, { value: '$0', label: 'Cost to You' }, { value: 'CISSP/CCSP', label: 'Certified Architects' }] },
-  { name: 'SIXPAC', logoUrl: '/assets/partners/sixpac-logo.png', href: 'https://sixpac.com',
+  { name: 'SIXPAC', logoUrl: '/assets/partners/sixpac-logo.webp', href: 'https://sixpac.com',
     tagline: 'SIXPAC does it all for $18/mo.',
     description: 'Payment processing, CRM, scheduling, memberships, invoicing, and inventory in one platform — no contract, and your price is locked in for life.',
     highlights: [{ value: '$18/mo', label: 'Starting Price' }, { value: 'No Contract', label: 'Locked-In Pricing' }, { value: '1.85%', label: 'Avg Processing Rate' }] },
-  { name: 'We Secure', logoUrl: 'https://cdn.prod.website-files.com/68dffe3c1608840d30a52523/68e562e9708eb17a7996bdda_we-secure_color%202.svg', href: 'https://we-secure.eu/',
+  { name: 'We Secure', logoUrl: '/assets/partners/we-secure.svg', href: 'https://we-secure.eu/',
     tagline: 'Enterprise-grade cybersecurity, backed by 20+ years of expertise.',
     description: 'We Secure delivers managed security services, incident response, and continuous protection for networks, endpoints, and cloud environments — backed by two decades defending critical industries.',
     highlights: [{ value: '24/7', label: 'SOC Monitoring' }, { value: '20+ Years', label: 'Expertise' }, { value: 'EU & US', label: 'Coverage' }] },
