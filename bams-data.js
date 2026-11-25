@@ -283,13 +283,6 @@ export const processSteps = [
   { n: '04', title: 'Ongoing Protection', desc: '24/7 monitoring and a dedicated engineer who knows your business.' },
 ];
 
-export const stats = [
-  { value: '99.9', suffix: '%', label: 'Average Uptime', sublabel: 'Across all client environments' },
-  { value: '15', suffix: ' min', label: 'Response SLA', sublabel: 'Contractually guaranteed' },
-  { value: '24/7', suffix: '', label: 'SOC Monitoring', sublabel: '365 days a year' },
-  { value: '50', suffix: '+', label: 'Enterprise Clients', sublabel: 'Nationwide coverage' },
-];
-
 // Capability statements, not live metrics: this strip is static, so it must not
 // show numbers that look like a real-time feed.
 export const tickerItems = ['24/7/365 SOC MONITORING', '15-MINUTE CONTRACTUAL RESPONSE SLA', 'ENDPOINT, NETWORK & CLOUD COVERAGE', 'NATIONWIDE ONSITE DISPATCH'];

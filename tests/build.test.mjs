@@ -170,11 +170,11 @@ describe('dist output', () => {
     assert.match(visible(html), /href="mailto:info@bamstechnology\.com/, 'mailto fallback link');
   });
 
-  test('homepage links to /visitconnect and no longer repeats the stats block', () => {
+  test('homepage links to /visitconnect and shows no unverified stats', () => {
     const html = visible(read('index.html'));
     assert.match(html, /href="\/visitconnect"/);
     assert.ok(!html.includes('TECHNOLOGY IMPACT'));
-    assert.equal((html.match(/Average Uptime/g) || []).length, 1);
+    assert.ok(!/Average Uptime|Enterprise Clients/.test(html), 'unverified uptime/client-count stats are back');
   });
 
   test('case studies have Article schema', () => {

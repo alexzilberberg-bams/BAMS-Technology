@@ -112,17 +112,6 @@ main{display:block;min-height:calc(100vh - 88px)}@media (max-width:420px){.brand
     <div style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;letter-spacing:0.06em;color:#6B7280;margin-top:16px">No obligation. No sales pressure.</div>
   </section>
 
-  <div class="px-page" style="max-width:1440px;margin:0 auto 64px">
-    <div class="grid-4" style="display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid #E5E7EB;border-bottom:1px solid #E5E7EB">
-      <sc-for list="{{ stats }}" as="stat" hint-placeholder-count="4">
-        <div class="grid-4-item" style="text-align:center;padding:32px 16px;border-left:1px solid #E5E7EB">
-          <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:2.2rem;color:{{ navyDark }};letter-spacing:-0.02em;line-height:1">{{ stat.value }}{{ stat.suffix }}</div>
-          <div style="font-size:0.9rem;font-weight:600;color:{{ navyDark }};margin-top:10px">{{ stat.label }}</div>
-          <div style="font-size:0.8rem;color:#6B7280;margin-top:2px">{{ stat.sublabel }}</div>
-        </div>
-      </sc-for>
-    </div>
-  </div>
 
   <div style="background:{{ navyDark }};color:#A9B4C6;font-family:'JetBrains Mono',monospace;font-size:0.75rem;letter-spacing:0.06em;padding:14px 0;display:flex;justify-content:center;gap:40px;flex-wrap:wrap">
     <sc-for list="{{ tickerItems }}" as="item" hint-placeholder-count="6">
@@ -281,10 +270,10 @@ class Component extends DCLogic {
         { title: 'Fits your EMR workflow', desc: 'VisitConnect connects with the EMR where the provider supports it. Otherwise staff attach a single PDF, and the EMR stays the system of record.' },
       ],
     };
-    if (!d) return { ...base, services: [], caseStudies: [], stats: [], processSteps: [], tickerItems: [], advisoryStats: [], navItems: [], footerItems: [] };
+    if (!d) return { ...base, services: [], caseStudies: [], processSteps: [], tickerItems: [], advisoryStats: [], navItems: [], footerItems: [] };
     return {
       ...base,
-      services: d.services, caseStudies: d.caseStudies.map(c => ({ ...c, url: '/case-study/' + c.key })), stats: d.stats,
+      services: d.services, caseStudies: d.caseStudies.map(c => ({ ...c, url: '/case-study/' + c.key })),
       processSteps: d.processSteps, tickerItems: d.tickerItems, advisoryStats: d.advisoryStats,
       navItems: d.navItemsFor(), footerItems: d.footerCompanyItems(),
     };
