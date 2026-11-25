@@ -200,6 +200,101 @@ describe('dist output', () => {
     }
   });
 
+  test('every page has exactly one <h1> and no skipped heading levels', () => {
+    for (const p of pages) {
+      const levels = [...visible(read(p)).matchAll(/<h([1-6])\b/gi)].map((m) => Number(m[1]));
+      assert.equal(levels.filter((l) => l === 1).length, 1, `${p}: expected exactly one <h1>`);
+      levels.forEach((l, i) => {
+        if (i) assert.ok(l <= levels[i - 1] + 1, `${p}: heading jumps from h${levels[i - 1]} to h${l}`);
+      });
+    }
+  });
+
+  test('JSON-LD has no null, undefined or empty values', () => {
+    const walk = (v, path, p) => {
+      assert.ok(v !== null && v !== undefined && v !== '', `${p}: empty value at ${path}`);
+      if (Array.isArray(v)) v.forEach((x, i) => walk(x, `${path}[${i}]`, p));
+      else if (typeof v === 'object') for (const [k, x] of Object.entries(v)) walk(x, `${path}.${k}`, p);
+    };
+    for (const p of pages) {
+      assert.ok(!/<script type="application\/ld\+json">[^<]*(undefined|NaN)/.test(read(p)), `${p}: undefined in JSON-LD`);
+      jsonLd(read(p)).forEach((b, i) => walk(b, `[${i}]`, p));
+    }
+  });
+
+  test('Organization and ProfessionalService carry full entity grounding', () => {
+    const blocks = jsonLd(read('index.html'));
+    for (const type of ['Organization', 'ProfessionalService']) {
+      const e = blocks.find((b) => b['@type'] === type);
+      assert.equal(e.legalName, 'BAMS Technology Inc.', type);
+      assert.equal(e.url, 'https://bamstechnology.com', type);
+      assert.equal(e.email, 'info@bamstechnology.com', type);
+      assert.equal(e.telephone, '+1-754-444-7773', type);
+      assert.ok(e.logo, type);
+      for (const k of ['Managed IT Services', 'Cybersecurity', 'SOC Monitoring', 'Penetration Testing', 'AI Integration', 'Custom Software Development', 'IP Security Cameras']) {
+        assert.ok(e.knowsAbout.includes(k), `${type}.knowsAbout missing ${k}`);
+      }
+    }
+  });
+
+  test('service pages: direct answer, offer catalog, FAQ schema mirrors visible FAQ, related services', () => {
+    for (const key of ['managed-it', 'cybersecurity', 'ai-integration', 'tech-advisory', 'custom-software', 'security-cameras']) {
+      const html = read(key + '.html');
+      const vis = visible(html);
+      const svc = jsonLd(html).find((b) => b['@type'] === 'Service');
+      assert.equal(svc.provider['@id'], 'https://bamstechnology.com/#organization');
+      assert.ok(svc.serviceType && svc.areaServed === 'US');
+      assert.ok(svc.hasOfferCatalog.itemListElement.length >= 4, `${key}: offer catalog`);
+      const words = svc.disambiguatingDescription.split(/\s+/).length;
+      assert.ok(words >= 40 && words <= 55, `${key}: direct answer is ${words} words`);
+      assert.ok(text(vis).includes(svc.disambiguatingDescription), `${key}: direct answer not visible`);
+      // FAQPage must be exactly the questions and answers shown on the page.
+      const faq = jsonLd(html).find((b) => b['@type'] === 'FAQPage');
+      const section = /<section id="faq"[\s\S]*?<\/section>/.exec(vis)[0];
+      const shownQ = [...section.matchAll(/<h3\b[^>]*>([\s\S]*?)<\/h3>/g)].map((m) => text(m[1]).replace(/&#39;|&#x27;/g, "'"));
+      const shownA = [...section.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/g)].map((m) => text(m[1]).replace(/&#39;|&#x27;/g, "'"));
+      assert.deepEqual(faq.mainEntity.map((q) => q.name), shownQ, `${key}: FAQ questions differ`);
+      assert.deepEqual(faq.mainEntity.map((q) => q.acceptedAnswer.text), shownA, `${key}: FAQ answers differ`);
+      const related = /<section id="related-services"[\s\S]*?<\/section>/.exec(vis);
+      assert.ok(related, `${key}: no related services`);
+      const links = [...related[0].matchAll(/href="(\/[a-z-]+)"/g)].map((m) => m[1]);
+      assert.ok(links.length >= 2 && !links.includes('/' + key), `${key}: related links ${links}`);
+    }
+  });
+
+  test('visible breadcrumbs match the BreadcrumbList schema', () => {
+    for (const p of pages.filter((f) => /^(case-stud|managed-it|cybersecurity|ai-integration|tech-advisory|custom-software|security-cameras)/.test(f))) {
+      const html = read(p);
+      const nav = /<nav aria-label="Breadcrumb"[\s\S]*?<\/nav>/.exec(visible(html));
+      assert.ok(nav, `${p}: no visible breadcrumbs`);
+      const shown = [...nav[0].matchAll(/<li(?![^>]*aria-hidden)[^>]*>([\s\S]*?)<\/li>/g)].map((m) => text(m[1]).replace(/&#39;|&#x27;/g, "'"));
+      const schemaNames = jsonLd(html).find((b) => b['@type'] === 'BreadcrumbList').itemListElement.map((i) => i.name);
+      assert.deepEqual(shown, schemaNames, `${p}: breadcrumbs differ from schema`);
+    }
+  });
+
+  test('sitemap lists every indexable page and not /404; robots allows llms files', () => {
+    const xml = read('sitemap.xml');
+    const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => new URL(m[1]).pathname);
+    const expected = pages.filter((p) => p !== '404.html').map(routeFor);
+    assert.deepEqual([...locs].sort(), [...expected].sort());
+    const robots = read('robots.txt');
+    assert.match(robots, /^Allow: \/llms\.txt$/m);
+    assert.match(robots, /^Allow: \/llms-full\.txt$/m);
+  });
+
+  test('llms-full.txt carries every service FAQ and case study', async () => {
+    const full = read('llms-full.txt');
+    const data = await import('data:text/javascript;base64,' + readFileSync(join(ROOT, 'bams-data.js')).toString('base64'));
+    for (const s of data.services) {
+      assert.ok(full.includes('### ' + s.title), `llms-full missing ${s.title}`);
+      for (const f of s.faqs) assert.ok(full.includes(f.q), `llms-full missing FAQ: ${f.q}`);
+    }
+    for (const c of data.caseStudies) assert.ok(full.includes(c.outcome), `llms-full missing case study ${c.key}`);
+    assert.match(full, /## VisitConnect/);
+    assert.match(read('llms.txt'), /llms-full\.txt/);
+  });
+
   test('sitemap lastmod dates are real dates and llms.txt ships', () => {
     const xml = read('sitemap.xml');
     const mods = [...xml.matchAll(/<lastmod>([^<]+)<\/lastmod>/g)].map((m) => m[1]);

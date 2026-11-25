@@ -15,8 +15,31 @@ export const COMPANY = {
   email: 'info@bamstechnology.com',
   founder: 'Alex Zilberberg',
   areaServed: 'US',
+  // Only profiles that really belong to the company. Add LinkedIn / Google
+  // Business Profile URLs here once they exist.
   sameAs: ['https://www.dnb.com/business-directory/company-profiles/bams-technology-inc.b9a0ed9a3f9939a60897632311e5bf40'],
+  knowsAbout: [
+    'Managed IT Services', 'Cybersecurity', 'SOC Monitoring', 'Penetration Testing', 'Incident Response',
+    'AI Integration', 'Custom Software Development', 'IP Security Cameras', 'Access Control',
+    'Microsoft 365', 'Technology Procurement', 'Patient Scheduling Software',
+  ],
 };
+
+// Fields shared by the Organization and ProfessionalService entities.
+const entityFields = () => ({
+  name: COMPANY.name,
+  legalName: COMPANY.name,
+  alternateName: COMPANY.shortName,
+  url: COMPANY.url,
+  logo: { '@type': 'ImageObject', url: COMPANY.logo },
+  image: COMPANY.image,
+  telephone: COMPANY.telephone,
+  email: COMPANY.email,
+  founder: { '@type': 'Person', name: COMPANY.founder },
+  areaServed: COMPANY.areaServed,
+  knowsAbout: COMPANY.knowsAbout,
+  sameAs: COMPANY.sameAs,
+});
 
 const providerRef = () => ({ '@type': 'Organization', '@id': ORG_ID, name: COMPANY.name, url: COMPANY.url });
 
@@ -25,15 +48,7 @@ export function organization() {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     '@id': ORG_ID,
-    name: COMPANY.name,
-    alternateName: COMPANY.shortName,
-    url: COMPANY.url,
-    logo: { '@type': 'ImageObject', url: COMPANY.logo },
-    image: COMPANY.image,
-    telephone: COMPANY.telephone,
-    email: COMPANY.email,
-    founder: { '@type': 'Person', name: COMPANY.founder },
-    areaServed: COMPANY.areaServed,
+    ...entityFields(),
     contactPoint: {
       '@type': 'ContactPoint',
       telephone: COMPANY.telephone,
@@ -42,7 +57,6 @@ export function organization() {
       areaServed: COMPANY.areaServed,
       availableLanguage: 'English',
     },
-    sameAs: COMPANY.sameAs,
   };
 }
 
@@ -51,18 +65,9 @@ export function professionalService(services, description) {
     '@context': 'https://schema.org',
     '@type': 'ProfessionalService',
     '@id': SITE + '/#business',
-    name: COMPANY.name,
-    alternateName: COMPANY.shortName,
+    ...entityFields(),
     description,
-    url: COMPANY.url,
-    logo: COMPANY.logo,
-    image: COMPANY.image,
-    telephone: COMPANY.telephone,
-    email: COMPANY.email,
-    founder: { '@type': 'Person', name: COMPANY.founder },
-    areaServed: COMPANY.areaServed,
     parentOrganization: { '@id': ORG_ID },
-    sameAs: COMPANY.sameAs,
     hasOfferCatalog: {
       '@type': 'OfferCatalog',
       name: 'BAMS Technology services',
@@ -94,7 +99,7 @@ export function breadcrumbs(items) {
 }
 
 export function service(svc, description, url) {
-  return {
+  const out = {
     '@context': 'https://schema.org',
     '@type': 'Service',
     '@id': url + '#service',
@@ -106,6 +111,18 @@ export function service(svc, description, url) {
     areaServed: COMPANY.areaServed,
     category: svc.tags,
   };
+  if (svc.directAnswer) out.disambiguatingDescription = svc.directAnswer;
+  if (svc.capabilities && svc.capabilities.length) {
+    out.hasOfferCatalog = {
+      '@type': 'OfferCatalog',
+      name: svc.title + ' capabilities',
+      itemListElement: svc.capabilities.map((c) => ({
+        '@type': 'Offer',
+        itemOffered: { '@type': 'Service', name: c.title, description: c.description, serviceType: c.items.join(', ') },
+      })),
+    };
+  }
+  return out;
 }
 
 export function faqPage(faqs, url) {
