@@ -285,7 +285,7 @@ export const processSteps = [
 
 // Capability statements, not live metrics: this strip is static, so it must not
 // show numbers that look like a real-time feed.
-export const tickerItems = ['24/7/365 SOC MONITORING', '15-MINUTE CONTRACTUAL RESPONSE SLA', 'ENDPOINT, NETWORK & CLOUD COVERAGE', 'NATIONWIDE ONSITE DISPATCH'];
+export const tickerItems = ['24/7/365 SOC MONITORING', '30-MINUTE CONTRACTUAL RESPONSE SLA', 'ENDPOINT, NETWORK & CLOUD COVERAGE', 'NATIONWIDE ONSITE DISPATCH'];
 
 export const advisoryStats = [{ value: '400+', label: 'Supplier Partners' }, { value: '$0', label: 'Cost to You' }, { value: 'CISSP/CCSP', label: 'Certified Architects' }];
 
