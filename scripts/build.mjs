@@ -9,10 +9,15 @@
 // the original template is kept in an inert <template>, the runtime renders it
 // off-screen, and the static copy is swapped out once the live one matches.
 //
+// Script URLs for bams-data.js and support.js get a ?v=<content hash> in dist/,
+// so browsers fetch a fresh copy whenever either file changes (source files
+// reference the bare /bams-data.js and /support.js).
+//
 // The build also injects JSON-LD, writes sitemap.xml with git-based <lastmod>
 // dates, and copies static assets. No npm dependencies; Node 18+.
 
 import { execFileSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
 import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { dirname, join, relative, resolve as resolvePath } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -25,6 +30,32 @@ export const STATIC_ASSETS = [
   'assets', 'BAMS_Logo_Blue.png', 'favicon.ico', 'robots.txt', 'llms.txt', '_redirects', '_headers',
   'bams-data.js', 'support.js', 'image-slot.js', 'ServicePage.dc.html',
 ];
+
+// Files whose URLs carry a content hash in dist/ (cache busting).
+export const VERSIONED_ASSETS = ['bams-data.js', 'support.js'];
+
+/** Short content hash for each versioned asset, e.g. { 'bams-data.js': '1a2b3c4d5e' }. */
+export function assetVersions(srcDir) {
+  const out = {};
+  for (const name of VERSIONED_ASSETS) {
+    out[name] = createHash('sha256').update(readFileSync(join(srcDir, name))).digest('hex').slice(0, 10);
+  }
+  return out;
+}
+
+/**
+ * Point every root-relative reference to a versioned asset at its hashed URL:
+ * src="/support.js" -> src="/support.js?v=<hash>", import('/bams-data.js') ->
+ * import('/bams-data.js?v=<hash>'). Any older hand-written ?v= is replaced.
+ */
+export function versionAssetRefs(text, versions) {
+  let out = text;
+  for (const [name, hash] of Object.entries(versions)) {
+    const re = new RegExp(`(["'(])(?:\\.)?/${name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(?:\\?v=[^"')\\s]*)?(?=["')])`, 'g');
+    out = out.replace(re, `$1/${name}?v=${hash}`);
+  }
+  return out;
+}
 
 /** Every HTML page of the site (components such as *.dc.html are not pages). */
 export function listPages(srcDir) {
@@ -301,6 +332,7 @@ export async function build({ srcDir = ROOT, outDir = join(ROOT, 'dist'), buildD
   rmSync(outDir, { recursive: true, force: true });
   mkdirSync(outDir, { recursive: true });
   const data = await import('data:text/javascript;base64,' + readFileSync(join(srcDir, 'bams-data.js')).toString('base64'));
+  const versions = assetVersions(srcDir);
 
   const pages = [];
   for (const file of listPages(srcDir)) {
@@ -308,7 +340,7 @@ export async function build({ srcDir = ROOT, outDir = join(ROOT, 'dist'), buildD
     page.lastmod = gitDate(srcDir, pageDeps(page), buildDate);
     page.datePublished = gitDate(srcDir, [file], buildDate, 'first');
     const meta = headMeta(page.source + page.helmets.join('\n'));
-    const html = assemble(page, meta, buildSchemas(page, meta, data));
+    const html = versionAssetRefs(assemble(page, meta, buildSchemas(page, meta, data)), versions);
     const dest = join(outDir, file);
     mkdirSync(dirname(dest), { recursive: true });
     writeFileSync(dest, html);
@@ -319,6 +351,11 @@ export async function build({ srcDir = ROOT, outDir = join(ROOT, 'dist'), buildD
     const from = join(srcDir, asset);
     if (!existsSync(from)) throw new Error(`missing static asset: ${asset}`);
     cpSync(from, join(outDir, asset), { recursive: statSync(from).isDirectory() });
+  }
+  // Components that support.js fetches at runtime import data too.
+  for (const comp of STATIC_ASSETS.filter((a) => a.endsWith('.dc.html'))) {
+    const dest = join(outDir, comp);
+    writeFileSync(dest, versionAssetRefs(readFileSync(dest, 'utf8'), versions));
   }
   writeSitemap(srcDir, outDir, pages);
   log(`Built ${pages.length} pages into ${relative(process.cwd(), outDir) || outDir}`);

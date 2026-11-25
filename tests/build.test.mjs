@@ -4,7 +4,7 @@ import { existsSync, mkdtempSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join, posix, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { build, listPages, routeFor, STATIC_ASSETS } from '../scripts/build.mjs';
+import { assetVersions, build, listPages, routeFor, STATIC_ASSETS, versionAssetRefs } from '../scripts/build.mjs';
 import { evalAttr, parse, render, resolve as resolveExpr } from '../scripts/lib/template.mjs';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -51,6 +51,14 @@ describe('template renderer', () => {
   });
 });
 
+describe('cache busting', () => {
+  test('versionAssetRefs rewrites script src and imports, replacing old ?v=', () => {
+    const v = { 'bams-data.js': 'aaaaaaaaaa', 'support.js': 'bbbbbbbbbb' };
+    const src = `<script src="/support.js" defer></script>import('/bams-data.js');import('./bams-data.js?v=4');x('/support.json');y('/sub/bams-data.js')`;
+    assert.equal(versionAssetRefs(src, v), `<script src="/support.js?v=bbbbbbbbbb" defer></script>import('/bams-data.js?v=aaaaaaaaaa');import('/bams-data.js?v=aaaaaaaaaa');x('/support.json');y('/sub/bams-data.js')`);
+  });
+});
+
 describe('dist output', () => {
   test('every page is built, plus all static assets', () => {
     assert.ok(pages.length >= 17, `expected all site pages, got ${pages.length}`);
@@ -81,7 +89,9 @@ describe('dist output', () => {
   test('pre-rendered pages still boot support.js for interactivity', () => {
     for (const p of pages.filter((f) => f !== '404.html')) {
       const html = read(p);
-      assert.match(html, /<script src="\/support\.js"><\/script>/, `${p}: support.js not loaded`);
+      assert.match(html, /<script src="\/support\.js\?v=[0-9a-f]{10}" defer><\/script>/, `${p}: support.js not loaded (deferred, versioned)`);
+      // With support.js deferred, the raw template must stay hidden until it boots.
+      assert.match(html.slice(0, html.indexOf('</head>')), /x-dc\{display:none!important\}/, `${p}: raw <x-dc> not hidden before support.js runs`);
       assert.match(html, /<template id="dc-src"><x-dc[\s\S]*<\/x-dc><\/template>/, `${p}: template not preserved`);
       if (readFileSync(join(ROOT, p), 'utf8').includes('data-dc-script')) {
         assert.match(html, /<script type="text\/x-dc" data-dc-script/, `${p}: component logic missing`);
@@ -200,5 +210,78 @@ describe('dist output', () => {
     for (const path of ['/managed-it', '/cybersecurity', '/ai-integration', '/tech-advisory', '/custom-software', '/security-cameras', '/visitconnect', '/case-studies', '/partners', '/contact-us']) {
       assert.ok(llms.includes('https://bamstechnology.com' + path), `llms.txt missing ${path}`);
     }
+  });
+
+  test('bams-data.js and support.js URLs carry the current content hash everywhere', () => {
+    const v = assetVersions(ROOT);
+    for (const p of [...pages, 'ServicePage.dc.html']) {
+      const html = read(p);
+      for (const [name, hash] of Object.entries(v)) {
+        for (const m of html.matchAll(new RegExp(`/${name.replace('.', '\\.')}[^"')\\s]*`, 'g'))) {
+          assert.equal(m[0], `/${name}?v=${hash}`, `${p}: unversioned or stale ${m[0]}`);
+        }
+      }
+    }
+    assert.match(read('index.html'), new RegExp(`import\\('/bams-data\\.js\\?v=${v['bams-data.js']}'\\)`));
+    assert.match(read('ServicePage.dc.html'), new RegExp(`import\\('/bams-data\\.js\\?v=${v['bams-data.js']}'\\)`));
+  });
+
+  test('source pages use bare root-relative script paths (the build adds versions)', () => {
+    for (const p of [...pages, 'ServicePage.dc.html']) {
+      const src = readFileSync(join(ROOT, p), 'utf8');
+      assert.ok(!/bams-data\.js\?v=|\.\/bams-data\.js|\.\/support\.js|support\.js\?v=/.test(src), `${p}: hand-versioned or relative script path`);
+    }
+  });
+
+  test('no third-party D&B iframe; the local badge links to the D&B profile', () => {
+    for (const p of pages.filter((f) => f !== '404.html')) {
+      const html = read(p);
+      assert.ok(!html.includes('dunsregistered.com') && !html.includes('TpTpmsSealIFrm'), `${p}: D&B iframe still present`);
+      assert.match(visible(html), /<a href="https:\/\/www\.dnb\.com\/business-directory\/[^"]+" target="_blank" rel="noopener noreferrer"[^>]*>\s*<img src="\/assets\/dnb-small-business-badge\.webp"/, `${p}: D&B badge link missing`);
+    }
+  });
+
+  test('partner logos are served locally and partner programs link out', async () => {
+    const data = await import(join(ROOT, 'bams-data.js'));
+    for (const [name, url] of data.partnersRaw) {
+      assert.match(url, /^\/assets\/partners\//, `${name}: logo not local`);
+      assert.ok(existsSync(join(out, url)), `${name}: ${url} missing`);
+    }
+    for (const pp of data.partnerPrograms) assert.ok(existsSync(join(out, pp.logoUrl)), `${pp.name}: ${pp.logoUrl} missing`);
+    const html = visible(read('partners.html'));
+    assert.ok(!html.includes('website-files.com'), 'partners page still hotlinks Webflow CDN');
+    for (const [name, url] of data.partnersRaw) assert.ok(html.includes(`<img src="${url}" alt="${name}"`), `${name}: logo not rendered`);
+    for (const pp of data.partnerPrograms) {
+      const links = [...html.matchAll(new RegExp(`<a href="${pp.href.replace(/[.*+?^${}()|[\]\\/]/g, '\\$&')}" target="_blank" rel="noopener noreferrer"`, 'g'))];
+      assert.ok(links.length >= 2, `${pp.name}: logo and Visit link should both point at ${pp.href}`);
+    }
+    assert.ok(!html.includes('Back to Home'), 'redundant Back to Home link');
+    assert.match(html, /<section id="get-started"[\s\S]*href="\/contact-us"[\s\S]*<\/main>/, 'partners closing CTA');
+  });
+
+  test('homepage ticker states capabilities, not fake live metrics, and ends with a CTA', async () => {
+    const data = await import(join(ROOT, 'bams-data.js'));
+    for (const t of data.tickerItems) assert.ok(!/:\s*[\d,.]+|TODAY|BLOCKED|ONLINE|\bAVG\b/.test(t), `ticker looks like a live metric: ${t}`);
+    const html = visible(read('index.html'));
+    for (const t of data.tickerItems) assert.ok(text(html).includes(t), `ticker item not rendered: ${t}`);
+    const cta = /<section id="get-started"[\s\S]*?<\/section>\s*<\/main>/.exec(html);
+    assert.ok(cta, 'closing CTA must be the last section before </main>');
+    assert.match(cta[0], /href="\/contact-us"/);
+    assert.match(cta[0], /href="tel:\+17544447773"/);
+  });
+
+  test('legal pages use the standard site navigation', () => {
+    const nav = (h) => /<nav\b[\s\S]*?<\/nav>/.exec(visible(h))[0].replace(/<a href="tel[\s\S]*$/, '');
+    const reference = nav(read('index.html'));
+    for (const p of ['privacy-policy.html', 'terms-of-service.html']) {
+      const html = read(p);
+      assert.ok(!html.includes('legal-nav'), `${p}: old legal navbar`);
+      assert.equal(nav(html), reference, `${p}: nav differs from the site nav`);
+    }
+  });
+
+  test('every service has a distinct icon', async () => {
+    const { services } = await import(join(ROOT, 'bams-data.js'));
+    assert.equal(new Set(services.map((s) => s.icon)).size, services.length);
   });
 });
