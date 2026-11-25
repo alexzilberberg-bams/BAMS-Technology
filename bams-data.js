@@ -134,7 +134,7 @@ const serviceDetails = {
       { title: 'Monitoring & Response', description: '24/7 monitoring and alerting without the overhead of building your own team.', items: ['24/7 Monitoring', 'Automated Alerting', 'Incident Response', 'Reporting & Compliance'] },
     ],
     whyChoose: [
-      { title: 'Always-On Support', desc: '24/7 monitoring with clear response SLAs.' },
+      { title: 'Always-On Support', desc: '24/7 monitoring with a 30-minute contractual response SLA.' },
       { title: 'Flat-Rate Pricing', desc: 'One predictable monthly fee, no surprise line items.' },
       { title: 'Certified Engineers', desc: 'Backed by CISSP/CCSP-level expertise.' },
       { title: 'Nationwide Coverage', desc: 'Remote and onsite support wherever you operate.' },
