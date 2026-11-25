@@ -3,6 +3,9 @@
 // the copy factual: what BAMS actually does, no invented numbers.
 const serviceDetails = {
   'ai-integration': {
+    directQuestion: 'What is BAMS Technology\'s AI integration service?',
+    directAnswer: 'BAMS Technology\'s AI integration service builds AI chatbots, internal assistants and workflow automation into the systems a business already uses. It connects models from providers such as OpenAI, Anthropic and Azure OpenAI to your data through their APIs, with access controls, logging and a human fallback built in.',
+    relatedServices: ['custom-software', 'managed-it', 'cybersecurity'],
     challengesHeading: 'Why AI projects stall.',
     challenges: [
       { title: 'Pilots that never reach production', desc: 'A chatbot demo is easy. Wiring it into your real data, permissions and workflows is where most AI projects stop.' },
@@ -38,6 +41,9 @@ const serviceDetails = {
     ],
   },
   'cybersecurity': {
+    directQuestion: 'What is BAMS Technology\'s managed cybersecurity (MSSP) service?',
+    directAnswer: 'BAMS Technology is a managed security service provider (MSSP). It protects businesses with 24/7 SOC monitoring through its security partners, endpoint detection and response, email and identity protection, vulnerability scanning, penetration testing and incident response, including removing malware and backdoors and restoring clean systems after an attack.',
+    relatedServices: ['managed-it', 'security-cameras', 'tech-advisory'],
     challengesHeading: 'Why attackers keep getting in.',
     challenges: [
       { title: 'Phishing that looks legitimate', desc: 'Lookalike domains and convincing emails slip past filters and catch busy employees.' },
@@ -73,6 +79,9 @@ const serviceDetails = {
     ],
   },
   'tech-advisory': {
+    directQuestion: 'What is BAMS Technology\'s technology procurement and advisory service?',
+    directAnswer: 'BAMS Technology\'s procurement and advisory service helps businesses choose and buy technology without vendor bias. Through its partnership with Advanced Interface Solutions, it compares options from 400+ supplier partners, reviews contracts and pricing, and coordinates rollout and renewals, at no added cost because providers compensate the advisor.',
+    relatedServices: ['managed-it', 'cybersecurity', 'security-cameras'],
     challengesHeading: 'Why technology buying goes wrong.',
     challenges: [
       { title: 'Too many vendors, no time to compare', desc: 'Every category has dozens of providers, and the sales pitches all sound the same.' },
@@ -108,6 +117,9 @@ const serviceDetails = {
     ],
   },
   'managed-it': {
+    directQuestion: 'What is BAMS Technology\'s managed IT service?',
+    directAnswer: 'BAMS Technology\'s managed IT service is an outsourced IT department for a flat monthly fee. It covers 24/7 monitoring, unlimited help desk support, patching, Microsoft 365 and Google Workspace administration, backups, network management and vendor coordination, delivered remotely across the US with onsite visits when needed.',
+    relatedServices: ['cybersecurity', 'security-cameras', 'tech-advisory'],
     challenges: [
       { title: 'Your network has too many blind spots', desc: 'Hybrid offices, cloud apps, and remote logins create gaps that are nearly impossible to track by hand.' },
       { title: 'Every device is a target', desc: 'Laptops, servers, and phones are always on and always exposed — the easiest way in for ransomware and malware.' },
@@ -142,6 +154,9 @@ const serviceDetails = {
     ],
   },
   'custom-software': {
+    directQuestion: 'What is BAMS Technology\'s custom software service?',
+    directAnswer: 'BAMS Technology\'s custom software service designs, builds and supports web applications, portals, integrations and dashboards around how a business actually works. It also modernizes legacy systems in phases with sandbox testing so live operations keep running, and provides hosting, security updates and ongoing feature work after launch.',
+    relatedServices: ['ai-integration', 'managed-it', 'cybersecurity'],
     challengesHeading: 'Why off-the-shelf software falls short.',
     challenges: [
       { title: 'Software that does not fit the workflow', desc: 'Generic tools force your team into workarounds, spreadsheets and double entry.' },
@@ -177,6 +192,9 @@ const serviceDetails = {
     ],
   },
   'security-cameras': {
+    directQuestion: 'What is BAMS Technology\'s security camera service?',
+    directAnswer: 'BAMS Technology\'s security camera service designs, installs and supports IP camera systems for businesses nationwide. Systems include network video recorders, fixed and PTZ cameras, secure remote viewing from any device, optional cloud recording, AI person and vehicle detection, and access control, all set up on a secured network segment.',
+    relatedServices: ['managed-it', 'cybersecurity', 'tech-advisory'],
     challengesHeading: 'Why older camera systems let you down.',
     challenges: [
       { title: 'Footage you cannot find when you need it', desc: 'Old DVRs make it slow to search, export or share video after an incident.' },
@@ -224,19 +242,21 @@ const serviceList = [
 
 export const services = serviceList.map((s) => ({ ...s, ...serviceDetails[s.key] }));
 
+// Case studies stay anonymous: industry and problem only, no client names or
+// identifying details, and no numbers we can't back up.
 export const caseStudies = [
   { key: 'publishing', industry: 'Publishing / Media', title: "Modernizing a Publishing House's Legacy Website", summary: 'A major publishing house was running severely dated backend technology and needed a modernization path with minimal downtime.', result: 'Zero-downtime backend migration across a live production site',
-    challenge: "The client's website ran on outdated backend technology that was increasingly fragile and hard to maintain — but the site couldn't go down; it was their primary revenue channel.",
-    approach: ['Audited the existing stack and mapped every dependency', 'Built a sandbox environment to test upgrades safely, isolated from production', 'Designed a phased upgrade schedule instead of a single risky cutover', 'Rolled out changes incrementally, validating at each stage before proceeding'],
-    outcome: "The backend was fully modernized with no unplanned downtime and no disruption to the publisher's live traffic." },
+    challenge: "The client's website ran on an outdated backend stack that was increasingly fragile and hard to patch. The site couldn't go down: it was the publisher's primary revenue channel, so every upgrade had to happen against live production traffic, with a clear way back if something failed.",
+    approach: ['Audited the existing stack and mapped every dependency, including server software, libraries, plugins, integrations and scheduled jobs', 'Built a sandbox copy of the site, isolated from production, to test each upgrade against real content before it went live', 'Designed a phased upgrade schedule with a rollback plan for every stage, instead of a single risky cutover', 'Rolled changes out incrementally, validating pages, integrations and performance at each stage before proceeding', 'Documented the upgraded environment so future patches follow the same tested path'],
+    outcome: "The backend was fully modernized with no unplanned downtime and no disruption to the publisher's live traffic. The site now runs on supported software that can be patched on a normal schedule, with a sandbox and a documented process for future changes." },
   { key: 'cardiology', industry: 'Healthcare', title: "Rebuilding a Cardiology Practice's EMR", summary: 'A cardiologist office needed their custom-built EMR rewritten into a new database — without breaking any of the systems it depended on.', result: 'HIPAA-compliant rewrite, zero functionality loss',
-    challenge: 'A custom-built EMR needed a full database rewrite while preserving every integration it depended on, alongside physical security, phone systems, and desktop support gaps.',
-    approach: ['Rewrote the EMR onto a new database while keeping functionality constant', 'Mapped and preserved every dependency with integrated third-party programs', 'Installed a security camera system and upgraded the phone system', 'Brought the practice into HIPAA compliance and authored incident-response policies', 'Provided ongoing desktop support'],
-    outcome: 'The practice runs on a modern, HIPAA-compliant EMR with the same functionality clinicians relied on, backed by documented IR policies and a hardened office.' },
+    challenge: 'A cardiology practice depended on a custom-built EMR that needed a full database rewrite. Every integration with third-party programs had to keep working through the change, and the office also had gaps in physical security, its phone system, desktop support and HIPAA documentation.',
+    approach: ['Rewrote the EMR onto a new database while keeping every workflow clinicians relied on functionally the same', 'Mapped each dependency on integrated third-party programs and tested it against the new database before cutover', 'Brought the practice into HIPAA compliance and authored incident-response policies for staff to follow', 'Installed a security camera system and upgraded the office phone system', 'Provided ongoing desktop support for clinical and front-office staff'],
+    outcome: 'The practice runs on a modern, HIPAA-compliant EMR with the same functionality clinicians relied on and its third-party integrations intact, backed by documented incident-response policies and an office hardened across cameras, phones and desktops.' },
   { key: 'pawn-shop', industry: 'Financial Services', title: 'Building Compliant Loan Software for a Pawn Shop', summary: "Existing financial software couldn't handle the client's lending workflow or compliance needs, so we built a custom platform.", result: 'Custom AI-driven CRM with compliant repayment and disbursement flows',
-    challenge: "The client's existing financial software couldn't reliably manage loan repayment, borrower disbursement, or the compliance requirements around both.",
-    approach: ['Designed a compliant lending workflow from the ground up', 'Built an AI-driven platform to handle loan repayment and disbursement to borrowers', "Integrated the platform into a custom CRM built for the client's operation"],
-    outcome: 'The client now runs loan repayment and borrower disbursement through one compliant, purpose-built platform integrated directly into their CRM.' },
+    challenge: "The client's existing financial software couldn't reliably manage loan repayment, borrower disbursement or the compliance requirements around both, so the lending workflow depended on software that didn't fit how the business actually operated.",
+    approach: ['Mapped the full lending workflow, from loan origination through repayment and disbursement, along with the compliance rules at each step', 'Designed a compliant lending workflow from the ground up, with those rules enforced by the software rather than by staff memory', 'Built an AI-driven platform to handle loan repayment and disbursement to borrowers', "Integrated the platform into a custom CRM built for the client's operation, so customer records and loans live in one place"],
+    outcome: 'The client now runs loan repayment and borrower disbursement through one compliant, purpose-built platform integrated directly into their CRM, with a single system of record for customers and loans.' },
 ];
 
 export const partnersRaw = [

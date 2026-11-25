@@ -18,11 +18,12 @@ import { dirname, join, relative, resolve as resolvePath } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { decodeEntities, escapeAttr, parse, render } from './lib/template.mjs';
 import * as schema from './lib/schema.mjs';
+import { llmsFull, llmsIndex } from './lib/llms.mjs';
 
 const ROOT = resolvePath(dirname(fileURLToPath(import.meta.url)), '..');
 
 export const STATIC_ASSETS = [
-  'assets', 'BAMS_Logo_Blue.png', 'favicon.ico', 'robots.txt', 'llms.txt', '_redirects', '_headers',
+  'assets', 'BAMS_Logo_Blue.png', 'favicon.ico', 'robots.txt', '_redirects', '_headers',
   'bams-data.js', 'support.js', 'image-slot.js', 'ServicePage.dc.html',
 ];
 
@@ -308,6 +309,7 @@ export async function build({ srcDir = ROOT, outDir = join(ROOT, 'dist'), buildD
     page.lastmod = gitDate(srcDir, pageDeps(page), buildDate);
     page.datePublished = gitDate(srcDir, [file], buildDate, 'first');
     const meta = headMeta(page.source + page.helmets.join('\n'));
+    page.meta = meta;
     const html = assemble(page, meta, buildSchemas(page, meta, data));
     const dest = join(outDir, file);
     mkdirSync(dirname(dest), { recursive: true });
@@ -321,6 +323,9 @@ export async function build({ srcDir = ROOT, outDir = join(ROOT, 'dist'), buildD
     cpSync(from, join(outDir, asset), { recursive: statSync(from).isDirectory() });
   }
   writeSitemap(srcDir, outDir, pages);
+  // Generated from bams-data.js and the rendered pages, so they never go stale.
+  writeFileSync(join(outDir, 'llms.txt'), llmsIndex(data, pages));
+  writeFileSync(join(outDir, 'llms-full.txt'), llmsFull(data, pages));
   log(`Built ${pages.length} pages into ${relative(process.cwd(), outDir) || outDir}`);
   return { pages };
 }

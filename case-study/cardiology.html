@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Rebuilding a Cardiology Practice&#x27;s EMR | Case Study | BAMS Technology</title>
+<title>Cardiology EMR Database Rewrite, HIPAA-Compliant | BAMS Technology Case Study</title>
 <meta name="case-study" content="cardiology">
-<meta name="description" content="A cardiologist office needed their custom-built EMR rewritten into a new database — without breaking any of the systems it depended on.">
+<meta name="description" content="How BAMS Technology rewrote a cardiology practice&#x27;s custom EMR onto a new database with zero functionality loss, kept every integration working, and brought the office into HIPAA compliance.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="BAMS Technology">
-<meta property="og:title" content="Rebuilding a Cardiology Practice&#x27;s EMR | Case Study | BAMS Technology">
-<meta property="og:description" content="A cardiologist office needed their custom-built EMR rewritten into a new database — without breaking any of the systems it depended on.">
+<meta property="og:title" content="Cardiology EMR Database Rewrite, HIPAA-Compliant | BAMS Technology Case Study">
+<meta property="og:description" content="How BAMS Technology rewrote a cardiology practice&#x27;s custom EMR onto a new database with zero functionality loss, kept every integration working, and brought the office into HIPAA compliance.">
 <meta property="og:url" content="https://bamstechnology.com/case-study/cardiology">
 <meta property="og:image" content="https://bamstechnology.com/assets/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -95,7 +95,7 @@ main{display:block;min-height:calc(100vh - 88px)}@media (max-width:420px){.brand
   <sc-if value="{{ notDetail }}" hint-placeholder-val="{{ true }}">
     <section class="px-page" style="padding:140px 48px 72px;background:#F9FAFB;border-bottom:1px solid #E5E7EB">
       <div style="max-width:1280px;margin:0 auto">
-        <a href="/" class="tap-link" style="color:{{ accentBlue }};font-family:'JetBrains Mono',monospace;font-size:0.8rem;display:inline-block;margin-bottom:24px">← Back to Home</a>
+        <nav aria-label="Breadcrumb" class="breadcrumbs" style="font-family:'JetBrains Mono',monospace;font-size:0.8rem;margin-bottom:24px"><ol style="list-style:none;display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:0;margin:0"><li><a href="/" class="tap-link" style="color:{{ accentBlue }}">Home</a></li><li aria-hidden="true" style="color:#9CA3AF">/</li><li aria-current="page" style="color:#4B5563">Case Studies</li></ol></nav>
         <div style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;letter-spacing:0.12em;color:{{ accentBlue }};margin-bottom:16px">// REAL CLIENT OUTCOMES</div>
         <h1 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(2rem,4vw,2.9rem);color:{{ navyDark }};letter-spacing:-0.02em;margin:0">Case studies.</h1>
       </div>
@@ -105,7 +105,7 @@ main{display:block;min-height:calc(100vh - 88px)}@media (max-width:420px){.brand
         <sc-for list="{{ caseStudies }}" as="c" hint-placeholder-count="3">
           <a href="{{ c.url }}" style="background:#F9FAFB;border:1px solid #E5E7EB;text-align:left;color:inherit;padding:28px;display:flex;flex-direction:column;gap:12px;min-height:260px;font:inherit">
             <div style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;letter-spacing:0.08em;color:{{ accentBlue }}">{{ c.industry }}</div>
-            <h3 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.1rem;color:{{ navyDark }};margin:0">{{ c.title }}</h3>
+            <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.1rem;color:{{ navyDark }};margin:0">{{ c.title }}</h2>
             <p style="font-size:0.88rem;line-height:1.6;color:#6B7280;margin:0;flex:1">{{ c.summary }}</p>
             <div style="font-size:0.82rem;font-weight:600;color:{{ navyDark }};border-top:1px solid #E5E7EB;padding-top:12px">{{ c.result }}</div>
           </a>
@@ -117,7 +117,7 @@ main{display:block;min-height:calc(100vh - 88px)}@media (max-width:420px){.brand
   <sc-if value="{{ isDetail }}" hint-placeholder-val="{{ false }}">
     <section class="px-page" style="padding:140px 48px 72px;background:#F9FAFB;border-bottom:1px solid #E5E7EB">
       <div style="max-width:900px;margin:0 auto">
-        <a href="/case-studies" class="tap-link" style="color:{{ accentBlue }};font-family:'JetBrains Mono',monospace;font-size:0.8rem;margin-bottom:24px">← Back to Case Studies</a>
+        <nav aria-label="Breadcrumb" class="breadcrumbs" style="font-family:'JetBrains Mono',monospace;font-size:0.8rem;margin-bottom:24px"><ol style="list-style:none;display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:0;margin:0"><li><a href="/" class="tap-link" style="color:{{ accentBlue }}">Home</a></li><li aria-hidden="true" style="color:#9CA3AF">/</li><li><a href="/case-studies" class="tap-link" style="color:{{ accentBlue }}">Case Studies</a></li><li aria-hidden="true" style="color:#9CA3AF">/</li><li aria-current="page" style="color:#4B5563">{{ currentCaseStudy.title }}</li></ol></nav>
         <div style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;letter-spacing:0.12em;color:{{ accentBlue }};margin-bottom:16px">{{ currentCaseStudy.industry }}</div>
         <h1 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(1.7rem,3.4vw,2.4rem);color:{{ navyDark }};letter-spacing:-0.02em;margin:0 0 20px">{{ currentCaseStudy.title }}</h1>
         <div style="display:inline-block;background:{{ navyDark }};color:#fff;font-size:0.85rem;font-weight:600;padding:10px 18px">{{ currentCaseStudy.result }}</div>
