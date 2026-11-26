@@ -116,6 +116,17 @@ describe('dist output', () => {
       assert.ok(canon.length >= 1, `${p}: no canonical`);
       assert.equal(new Set(canon).size, 1, `${p}: conflicting canonicals`);
       assert.equal(canon[0], 'https://bamstechnology.com' + routeFor(p), `${p}: canonical points elsewhere`);
+      // Exactly one, counting the runtime <template> that support.js hydrates from.
+      assert.equal((html.match(/rel="canonical"/g) || []).length, 1, `${p}: canonical appears more than once`);
+    }
+  });
+
+  test('pages.dev deployments are noindex so only bamstechnology.com is indexed', () => {
+    const headers = read('_headers');
+    for (const host of ['https://:project.pages.dev/*', 'https://:version.:project.pages.dev/*']) {
+      const i = headers.indexOf(host);
+      assert.ok(i >= 0, `_headers missing ${host}`);
+      assert.match(headers.slice(i).split(/\n(?=\S)/)[0], /X-Robots-Tag: noindex/, `${host} not noindex`);
     }
   });
 

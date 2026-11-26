@@ -3,3 +3,11 @@
 # fetches at runtime; it is not a page and should not be indexed.
 /ServicePage.dc.html
   X-Robots-Tag: noindex
+
+# The site is also reachable at bams-technology.pages.dev (and per-deploy
+# preview URLs). Keep those out of search so only bamstechnology.com is indexed.
+https://:project.pages.dev/*
+  X-Robots-Tag: noindex
+
+https://:version.:project.pages.dev/*
+  X-Robots-Tag: noindex
