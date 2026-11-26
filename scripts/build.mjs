@@ -309,7 +309,10 @@ function assemble(page, meta, schemas) {
   html = html.replace('</head>', headExtra.join('\n') + '\n</head>');
   if (page.dc) {
     const dc = extractDc(html);
-    const block = `<template id="dc-src">${dc.openTag}${dc.template}</x-dc></template>\n<div id="dc-static">${page.html}</div>\n${SWAP_SCRIPT}`;
+    // The canonical is already in the static <head>. Drop the <helmet> copy from
+    // the runtime template, or support.js appends a second one when it hydrates.
+    const template = dc.template.replace(/^[ \t]*<link\s+rel="canonical"[^>]*>[ \t]*\r?\n?/gim, '');
+    const block = `<template id="dc-src">${dc.openTag}${template}</x-dc></template>\n<div id="dc-static">${page.html}</div>\n${SWAP_SCRIPT}`;
     html = html.slice(0, dc.start) + block + html.slice(dc.end);
   }
   return html;
